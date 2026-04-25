@@ -1,0 +1,37 @@
+services:
+  ssu-138-preview:
+    image: nginx:1.27-alpine
+    container_name: ssu-138-preview
+    restart: unless-stopped
+    volumes:
+      - ./landing:/srv/landing:ro
+      - ./icon.svg:/srv/landing/icon.svg:ro
+      - ./variants/variant-A:/srv/variant-a:ro
+      - ./variants/variant-B:/srv/variant-b:ro
+      - ./variants/variant-C:/srv/variant-c:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.ssu-138-preview.rule=Host(`ssu-138.online`) || Host(`www.ssu-138.online`)"
+      - "traefik.http.routers.ssu-138-preview.entrypoints=websecure"
+      - "traefik.http.routers.ssu-138-preview.tls=true"
+      - "traefik.http.routers.ssu-138-preview.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.ssu-138-preview.tls.domains[0].main=ssu-138.online"
+      - "traefik.http.routers.ssu-138-preview.tls.domains[0].sans=www.ssu-138.online"
+      - "traefik.http.services.ssu-138-preview.loadbalancer.server.port=80"
+      # www → apex redirect
+      - "traefik.http.routers.ssu-138-preview-www.rule=Host(`www.ssu-138.online`)"
+      - "traefik.http.routers.ssu-138-preview-www.entrypoints=websecure"
+      - "traefik.http.routers.ssu-138-preview-www.tls=true"
+      - "traefik.http.routers.ssu-138-preview-www.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.ssu-138-preview-www.middlewares=ssu-138-www-redirect"
+      - "traefik.http.middlewares.ssu-138-www-redirect.redirectregex.regex=^https://www\\.ssu-138\\.online/(.*)"
+      - "traefik.http.middlewares.ssu-138-www-redirect.redirectregex.replacement=https://ssu-138.online/$${1}"
+      - "traefik.http.middlewares.ssu-138-www-redirect.redirectregex.permanent=true"
+
+networks:
+  web:
+    external: true

@@ -1,0 +1,32 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Local Claude config
+.claude/
+
+# Local working files
+briefs/_local*
+
+# Internal deploy notes (содержит SSH alias и пути на сервере — держим локально)
+DEPLOY.md
+
+# Исходники изображений в корне (дубликаты — уже скопированы в variants/* и landing/)
+/Бочаров ручей.webp
+/артек.jpg
+/Военный госпиталь.jpg
+/Благодарственное письмо.jpg
+
+# Внутренние документы заказчика
+/Задание.txt
+
+# Variant D — пока не публикуется
+# (раскомментируй чтобы исключить из репо)
+# variants/variant-D/

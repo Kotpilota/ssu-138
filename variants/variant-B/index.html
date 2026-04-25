@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ССУ-138 — Industrial Engineering. Строительство объектов федерального уровня</title>
+  <meta name="description" content="ССУ-138 — строительство, проектирование, спецтехника. Объекты федерального уровня с 2008 года. Москва, Сочи, Крым, Севастополь.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header" role="banner">
+    <a href="#" class="header-logo" aria-label="ССУ-138 — главная страница">
+      <img src="icon.svg" alt="Логотип ССУ-138" width="32" height="32">
+      <span class="header-logo-name">ССУ-138</span>
+    </a>
+    <nav class="header-nav" aria-label="Основная навигация">
+      <a href="#services">Услуги</a>
+      <a href="#objects">Объекты</a>
+      <a href="#about">О компании</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <button class="btn-accent" onclick="document.getElementById('contacts').scrollIntoView({behavior:'smooth'})">
+      Оставить заявку
+    </button>
+    <button class="menu-toggle" aria-label="Открыть меню">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" aria-label="Главный баннер">
+      <div class="hero-inner">
+        <div class="hero-left">
+          <p class="hero-mono-tag">/ССУ-138 — С 2008 ГОДА</p>
+          <h1 class="fade-up">Строительство объектов федерального уровня.<br>Москва, Сочи, Крым, Севастополь.</h1>
+          <p class="hero-subtitle fade-up">
+            Полный цикл — от проектирования до сдачи под ключ. Государственные подряды, собственный парк техники, контроль качества на каждом этапе.
+          </p>
+          <div class="hero-cta fade-up">
+            <button class="btn-accent" onclick="document.getElementById('contacts').scrollIntoView({behavior:'smooth'})">
+              Оставить заявку
+            </button>
+            <a href="#objects" class="btn-outline-b">
+              Объекты <span class="arrow">→</span>
+            </a>
+          </div>
+        </div>
+        <div class="hero-right">
+          <img
+            src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=900&q=80&auto=format&fit=crop"
+            alt="Схематичное изображение объекта строительства ССУ-138"
+            width="800" height="800"
+          >
+          <div class="hero-coords" aria-label="Координаты Москвы">55.7558°N, 37.6173°E</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SERVICES ===== -->
+    <section class="services" id="services" aria-labelledby="services-title">
+      <div style="max-width:1320px;margin:0 auto;">
+        <p class="section-mono fade-up">/01 — НАПРАВЛЕНИЯ</p>
+        <h2 class="section-title fade-up" id="services-title">Что мы делаем</h2>
+        <div class="services-grid">
+
+          <article class="service-card fade-up">
+            <p class="card-mono">/01</p>
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21h18M3 7l9-4 9 4M4 21V7M20 21V7M9 21v-5h6v5"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Строительство</h3>
+            <p class="card-desc">Промышленные, гражданские, военные и социальные объекты под ключ. Опыт работы на объектах федерального значения.</p>
+            <a href="#contacts" class="card-link">Подробнее →</a>
+          </article>
+
+          <article class="service-card fade-up">
+            <p class="card-mono">/02</p>
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Проектирование</h3>
+            <p class="card-desc">Полный цикл проектных работ: рабочая документация, согласования, BIM-моделирование. Соответствие требованиям государственного заказчика.</p>
+            <a href="#contacts" class="card-link">Подробнее →</a>
+          </article>
+
+          <article class="service-card fade-up">
+            <p class="card-mono">/03</p>
+            <div class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13" rx="2"/>
+                <path d="M16 8l4 0M16 8v5l4 0"/>
+                <circle cx="5.5" cy="18.5" r="2.5"/>
+                <circle cx="18.5" cy="18.5" r="2.5"/>
+              </svg>
+            </div>
+            <h3 class="card-title">Спецтехника</h3>
+            <p class="card-desc">Аренда спецтехники с экипажем: краны, экскаваторы, бульдозеры. Собственный парк 50+ единиц.</p>
+            <a href="#contacts" class="card-link">Подробнее →</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== OBJECTS ===== -->
+    <section class="objects" id="objects" aria-labelledby="objects-title">
+      <div style="max-width:1320px;margin:0 auto;">
+        <p class="section-mono fade-up">/02 — ОБЪЕКТЫ</p>
+        <h2 class="section-title fade-up" id="objects-title" style="color:#0F1419;">Ключевые реализованные объекты</h2>
+        <div class="objects-grid">
+
+          <article class="object-card fade-up">
+            <div class="object-photo">
+              <img
+                src="bocharov-ruchey.webp"
+                alt="Резиденция Президента РФ Бочаров ручей, Сочи"
+                width="800" height="600"
+                loading="lazy"
+              >
+              <span class="object-tag">ГОСЗАКАЗ</span>
+              <div class="object-overlay">
+                Строительные работы на объекте федерального значения. Заказчик — Управление делами Президента РФ. Полный комплекс строительно-монтажных работ.
+              </div>
+            </div>
+            <div class="object-body">
+              <h3 class="object-name">Резиденция «Бочаров ручей»</h3>
+              <div class="object-table">
+                <div class="object-table-row">Заказчик<br><span>УДП РФ</span></div>
+                <div class="object-table-row">Локация<br><span>Сочи</span></div>
+                <div class="object-table-row">Тип<br><span>Государственный</span></div>
+                <div class="object-table-row">Статус<br><span>Сдан</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="object-card fade-up">
+            <div class="object-photo">
+              <img
+                src="artek.jpg"
+                alt="МДЦ Артек, Ялта, Крым"
+                width="800" height="600"
+                loading="lazy"
+              >
+              <span class="object-tag">МИНПРОСВЕЩЕНИЯ</span>
+              <div class="object-overlay">
+                Реконструкция и строительство объектов международного детского центра «Артек». Заказчик — Министерство просвещения РФ.
+              </div>
+            </div>
+            <div class="object-body">
+              <h3 class="object-name">МДЦ «Артек»</h3>
+              <div class="object-table">
+                <div class="object-table-row">Заказчик<br><span>Минпросвещения</span></div>
+                <div class="object-table-row">Локация<br><span>Ялта, Крым</span></div>
+                <div class="object-table-row">Тип<br><span>Социальный</span></div>
+                <div class="object-table-row">Статус<br><span>Сдан</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="object-card fade-up">
+            <div class="object-photo">
+              <img
+                src="military-hospital.jpg"
+                alt="Военный госпиталь, Севастополь"
+                width="800" height="600"
+                loading="lazy"
+              >
+              <span class="object-tag">МИНОБОРОНЫ</span>
+              <div class="object-overlay">
+                Строительство военного госпиталя для нужд Министерства обороны РФ. Объект режимного назначения, полный цикл работ.
+              </div>
+            </div>
+            <div class="object-body">
+              <h3 class="object-name">Военный госпиталь</h3>
+              <div class="object-table">
+                <div class="object-table-row">Заказчик<br><span>Минобороны РФ</span></div>
+                <div class="object-table-row">Локация<br><span>Севастополь</span></div>
+                <div class="object-table-row">Тип<br><span>Военный</span></div>
+                <div class="object-table-row">Статус<br><span>Сдан</span></div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STATS ===== -->
+    <section class="stats" id="about" aria-labelledby="stats-title">
+      <div class="stats-grid">
+        <div class="stat-item fade-up">
+          <div class="stat-num" data-count="17" data-suffix="">17</div>
+          <div class="stat-label">лет на рынке</div>
+        </div>
+        <div class="stat-item fade-up">
+          <div class="stat-num" data-count="100" data-suffix="+">100+</div>
+          <div class="stat-label">сданных объектов</div>
+        </div>
+        <div class="stat-item fade-up">
+          <div class="stat-num" data-count="250000" data-suffix="+">250 000+</div>
+          <div class="stat-label">м² построено</div>
+        </div>
+        <div class="stat-item fade-up">
+          <div class="stat-num" data-count="50" data-suffix="+">50+</div>
+          <div class="stat-label">единиц спецтехники</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LETTER ===== -->
+    <section class="letter" aria-labelledby="letter-title">
+      <div class="letter-inner">
+        <div class="letter-img fade-up">
+          <img
+            src="gratitude-letter.jpg"
+            alt="Благодарственное письмо ССУ-138"
+            width="600" height="800"
+            loading="lazy"
+          >
+        </div>
+        <div class="letter-content fade-up">
+          <p class="section-mono">/03 — ДОВЕРИЕ</p>
+          <h2 class="section-title" id="letter-title">Нам доверяют государственные структуры</h2>
+          <p class="letter-quote">
+            «Выражаем благодарность коллективу ССУ-138 за высокое качество выполненных работ, соблюдение сроков и профессиональный подход к реализации объекта федерального значения.»
+          </p>
+          <p class="letter-attribution">[ЗАКАЗЧИК] · УДП РФ · Государственный объект</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STAGES ===== -->
+    <section class="stages" aria-labelledby="stages-title">
+      <div style="max-width:1320px;margin:0 auto;">
+        <p class="section-mono fade-up">/04 — ПРОЦЕСС</p>
+        <h2 class="section-title fade-up" id="stages-title">Этапы реализации проекта</h2>
+        <div class="stages-timeline">
+          <div class="stage-item fade-up">
+            <div class="stage-dot"><span class="stage-dot-num">01</span></div>
+            <h3 class="stage-title">Заявка</h3>
+            <p class="stage-desc">Приём обращения, анализ технического задания, предварительная оценка</p>
+          </div>
+          <div class="stage-item fade-up">
+            <div class="stage-dot"><span class="stage-dot-num">02</span></div>
+            <h3 class="stage-title">Проектирование</h3>
+            <p class="stage-desc">Разработка рабочей документации, BIM-модель, сметный расчёт</p>
+          </div>
+          <div class="stage-item fade-up">
+            <div class="stage-dot"><span class="stage-dot-num">03</span></div>
+            <h3 class="stage-title">Согласование</h3>
+            <p class="stage-desc">Государственная экспертиза, получение разрешений, согласование с заказчиком</p>
+          </div>
+          <div class="stage-item fade-up">
+            <div class="stage-dot"><span class="stage-dot-num">04</span></div>
+            <h3 class="stage-title">Строительство</h3>
+            <p class="stage-desc">Производство работ, технический надзор, контроль качества и сроков</p>
+          </div>
+          <div class="stage-item fade-up">
+            <div class="stage-dot"><span class="stage-dot-num">05</span></div>
+            <h3 class="stage-title">Сдача</h3>
+            <p class="stage-desc">Приёмка объекта, передача документации, гарантийные обязательства</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACTS ===== -->
+    <section class="contacts" id="contacts" aria-labelledby="contacts-title">
+      <div class="contacts-inner">
+        <div>
+          <p class="section-mono">/05 — КОНТАКТ</p>
+          <h2 class="section-title" id="contacts-title">Оставить заявку</h2>
+          <form class="contact-form" novalidate>
+            <div class="form-group">
+              <label for="name">ИМЯ</label>
+              <input type="text" id="name" name="name" placeholder="Ваше имя" required autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="phone">ТЕЛЕФОН</label>
+              <input type="tel" id="phone" name="phone" placeholder="+7 (000) 000-00-00" required autocomplete="tel">
+            </div>
+            <div class="form-group">
+              <label for="object-type">ТИП ОБЪЕКТА</label>
+              <select id="object-type" name="object-type">
+                <option value="">Выберите тип</option>
+                <option value="industrial">Промышленный</option>
+                <option value="civil">Гражданский</option>
+                <option value="military">Военный / государственный</option>
+                <option value="social">Социальный</option>
+                <option value="other">Другое</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">СООБЩЕНИЕ</label>
+              <textarea id="message" name="message" rows="4" placeholder="Опишите задачу..."></textarea>
+            </div>
+            <button type="submit" class="btn-submit-full">Отправить заявку</button>
+          </form>
+        </div>
+        <div>
+          <p class="section-mono">/РЕКВИЗИТЫ</p>
+          <h3 class="section-title" style="font-size:32px;margin-bottom:32px;">Контакты</h3>
+          <div>
+            <p class="contact-label">[PHONE]</p>
+            <p class="contact-value"><a href="tel:+70000000000">+7 (000) 000-00-00</a></p>
+          </div>
+          <div>
+            <p class="contact-label">[EMAIL]</p>
+            <p class="contact-value"><a href="mailto:info@ssu-138.ru">info@ssu-138.ru</a></p>
+          </div>
+          <div>
+            <p class="contact-label">[ADDRESS]</p>
+            <p class="contact-value">г. Москва</p>
+          </div>
+          <div
+            class="map-placeholder"
+            role="img"
+            aria-label="Карта офиса ССУ-138 в Москве"
+          >
+            MAP · 55.7558°N, 37.6173°E
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <img src="icon.svg" alt="Логотип ССУ-138" width="32" height="32">
+          <span class="footer-logo-name">ССУ-138</span>
+        </div>
+        <p class="footer-desc">Специализированное строительное управление 138. Государственные подряды, полный цикл строительства.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Услуги</h4>
+        <a href="#services">Строительство</a>
+        <a href="#services">Проектирование</a>
+        <a href="#services">Спецтехника</a>
+      </div>
+      <div class="footer-col">
+        <h4>Объекты</h4>
+        <a href="#objects">Бочаров ручей</a>
+        <a href="#objects">МДЦ Артек</a>
+        <a href="#objects">Военный госпиталь</a>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <a href="tel:+70000000000">+7 (000) 000-00-00</a>
+        <a href="mailto:info@ssu-138.ru">info@ssu-138.ru</a>
+        <p>г. Москва</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copyright">© 2008–2026 ССУ-138 · ИНН / ОГРН — заглушки · v1.0</span>
+      <span class="footer-copyright">Специализированное строительное управление 138</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
