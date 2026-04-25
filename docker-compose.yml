@@ -5,7 +5,6 @@ services:
     restart: unless-stopped
     volumes:
       - ./landing:/srv/landing:ro
-      - ./icon.svg:/srv/landing/icon.svg:ro
       - ./variants/variant-A:/srv/variant-a:ro
       - ./variants/variant-B:/srv/variant-b:ro
       - ./variants/variant-C:/srv/variant-c:ro
