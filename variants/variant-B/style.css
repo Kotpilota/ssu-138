@@ -255,19 +255,21 @@ ul { list-style: none; }
 }
 .service-card:hover { border-color: #3A4049; box-shadow: 0 4px 24px rgba(242,77,32,0.05); }
 .service-card:hover::before { transform: scaleY(1); }
-.card-mono {
+.card-num {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 0.1em;
-  margin-bottom: 16px;
-}
-.card-icon {
-  width: 40px; height: 40px;
-  margin-bottom: 20px;
+  font-size: 56px;
+  font-weight: 500;
   color: var(--accent);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 18px;
 }
-.card-icon svg { width: 40px; height: 40px; }
+.card-rule {
+  width: 32px;
+  height: 1px;
+  background: var(--steel);
+  margin-bottom: 24px;
+}
 .card-title {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 22px;
