@@ -306,7 +306,7 @@ ul { list-style: none; }
 .stat-item { padding: 0 40px; }
 .stat-item:first-child { padding-left: 0; }
 .stat-num {
-  font-size: clamp(72px, 9vw, 120px);
+  font-size: clamp(48px, 9vw, 120px);
   font-weight: 300;
   color: var(--black);
   line-height: 1;
@@ -519,7 +519,5 @@ ul { list-style: none; }
   .object-cols { grid-template-columns: 1fr; }
   .contacts-inner { grid-template-columns: 1fr; }
   .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
-}
-@media (max-width: 375px) {
-  .stats-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; gap: 32px; }
 }

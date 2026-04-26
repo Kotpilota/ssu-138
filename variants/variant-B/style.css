@@ -390,7 +390,7 @@ ul { list-style: none; }
 .stat-item:last-child { border-right: none; }
 .stat-num {
   font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(56px, 7vw, 96px);
+  font-size: clamp(40px, 7vw, 96px);
   font-weight: 500;
   color: var(--accent);
   line-height: 1;
@@ -676,9 +676,11 @@ ul { list-style: none; }
   .services-grid, .objects-grid { grid-template-columns: 1fr; }
   .letter-inner, .contacts-inner { grid-template-columns: 1fr; }
   .stages-timeline { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .stat-item { padding: 32px 20px; border-right: none; border-bottom: 1px solid var(--steel); }
+  .stat-item:last-child { border-bottom: none; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 375px) {
-  .stats-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
 }
