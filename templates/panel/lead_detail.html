@@ -1,0 +1,118 @@
+{% extends "panel/base.html" %}
+{% load static %}
+{% block title %}Заявка #{{ lead.pk }}{% endblock %}
+{% block nav_leads %}active{% endblock %}
+
+{% block content %}
+<div class="panel-page-header">
+  <div>
+    <a href="{% url 'panel_leads' %}" class="back-link">← Заявки</a>
+    <h1 class="panel-page-title">Заявка #{{ lead.pk }}</h1>
+  </div>
+  <span class="badge badge--{{ lead.status }} badge--lg">{{ lead.get_status_display }}</span>
+</div>
+
+<div class="detail-grid">
+  <!-- Left column: info + notes -->
+  <div class="detail-main">
+    <!-- Contact info -->
+    <div class="detail-card">
+      <h2 class="detail-card-title">Данные заявки</h2>
+      <dl class="detail-list">
+        <dt>Имя</dt><dd>{{ lead.name }}</dd>
+        <dt>Телефон</dt><dd><a href="tel:{{ lead.phone }}" class="detail-link">{{ lead.phone }}</a></dd>
+        <dt>Тип объекта</dt><dd>{{ lead.get_object_type_display }}</dd>
+        <dt>Дата создания</dt><dd>{{ lead.created_at|date:"d.m.Y H:i:s" }}</dd>
+        <dt>Последнее изменение</dt><dd>{{ lead.updated_at|date:"d.m.Y H:i:s" }}</dd>
+      </dl>
+      {% if lead.message %}
+      <div class="detail-message">
+        <p class="detail-message-label">Сообщение:</p>
+        <p class="detail-message-text">{{ lead.message }}</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Technical info -->
+    <div class="detail-card">
+      <h2 class="detail-card-title">Технические данные</h2>
+      <dl class="detail-list">
+        <dt>IP-адрес</dt><dd class="td-mono">{{ lead.ip|default:"—" }}</dd>
+        <dt>Email уведомление</dt>
+        <dd>
+          {% if lead.email_sent %}<span class="icon-ok">✓ Отправлен</span>
+          {% else %}<span class="icon-no">✗ Не отправлен</span>{% endif %}
+        </dd>
+        <dt>Telegram уведомление</dt>
+        <dd>
+          {% if lead.telegram_sent %}<span class="icon-ok">✓ Отправлен</span>
+          {% else %}
+            <span class="icon-no">✗ Не отправлен</span>
+            <form method="post" action="{% url 'panel_lead_resend_tg' lead.pk %}" style="display:inline;margin-left:12px;">
+              {% csrf_token %}
+              <button type="submit" class="btn-xs">Отправить</button>
+            </form>
+          {% endif %}
+        </dd>
+        {% if lead.user_agent %}
+        <dt>User-Agent</dt><dd class="td-ua">{{ lead.user_agent|truncatechars:100 }}</dd>
+        {% endif %}
+      </dl>
+    </div>
+
+    <!-- Notes -->
+    <div class="detail-card">
+      <h2 class="detail-card-title">Комментарии</h2>
+
+      {% for note in notes %}
+      <div class="note-item">
+        <div class="note-meta">
+          <span class="note-author">{{ note.author.username|default:"system" }}</span>
+          <span class="note-date td-mono">{{ note.created_at|date:"d.m.y H:i" }}</span>
+        </div>
+        <p class="note-text">{{ note.text }}</p>
+      </div>
+      {% empty %}
+      <p class="td-empty" style="padding: 12px 0;">Комментариев нет</p>
+      {% endfor %}
+
+      <form method="post" action="{% url 'panel_lead_note' lead.pk %}" class="note-form">
+        {% csrf_token %}
+        <textarea name="text" class="note-textarea" placeholder="Добавить комментарий..." rows="3" required></textarea>
+        <button type="submit" class="btn-sm" style="margin-top:8px;">Добавить</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Right column: status -->
+  <div class="detail-sidebar">
+    <div class="detail-card">
+      <h2 class="detail-card-title">Изменить статус</h2>
+      <form method="post" action="{% url 'panel_lead_status' lead.pk %}">
+        {% csrf_token %}
+        <div class="status-radio-group">
+          {% for val, label in status_choices %}
+          <label class="status-radio {% if lead.status == val %}status-radio--active{% endif %}">
+            <input type="radio" name="status" value="{{ val }}" {% if lead.status == val %}checked{% endif %}>
+            <span class="badge badge--{{ val }}">{{ label }}</span>
+          </label>
+          {% endfor %}
+        </div>
+        <button type="submit" class="btn-sm" style="margin-top:16px;width:100%;">Сохранить</button>
+      </form>
+    </div>
+
+    <div class="detail-card">
+      <h2 class="detail-card-title">Действия</h2>
+      <a href="tel:{{ lead.phone }}" class="action-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.14 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.05 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.81-.81a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 17z"/></svg>
+        Позвонить
+      </a>
+      <a href="{% url 'panel_leads_export' %}?status={{ lead.status }}" class="action-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Экспорт CSV
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

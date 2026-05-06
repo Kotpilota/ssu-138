@@ -1,0 +1,137 @@
+{% load static %}<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход в панель — ССУ-138</title>
+  <link rel="icon" href="{% static 'img/icon.svg' %}" type="image/svg+xml">
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'css/panel.css' %}">
+  <style>
+    .login-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      padding: 20px;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 380px;
+      background: var(--surface);
+      border: 1px solid var(--steel);
+      border-radius: var(--radius);
+      padding: 40px 36px;
+    }
+    .login-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 32px;
+      text-decoration: none;
+    }
+    .login-logo span {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .login-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .login-field { margin-bottom: 16px; }
+    .login-field label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .login-field input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--steel);
+      border-radius: 4px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      outline: none;
+      transition: border-color .2s;
+      box-sizing: border-box;
+    }
+    .login-field input:focus { border-color: var(--accent); }
+    .login-errors {
+      background: rgba(242,77,32,.1);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      padding: 10px 14px;
+      color: var(--accent);
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+    .login-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      cursor: pointer;
+      transition: opacity .2s;
+      margin-top: 8px;
+    }
+    .login-btn:hover { opacity: .88; }
+    .login-back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .login-back:hover { color: var(--text); }
+  </style>
+</head>
+<body style="background: var(--bg);">
+<div class="login-wrap">
+  <div class="login-card">
+    <a href="/" class="login-logo">
+      <img src="{% static 'img/icon.svg' %}" alt="" width="28" height="28">
+      <span>ССУ-138</span>
+    </a>
+    <p class="login-title">Панель управления</p>
+
+    {% if form.errors %}
+    <div class="login-errors">Неверный логин или пароль.</div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
+      <div class="login-field">
+        <label for="id_username">Логин</label>
+        <input type="text" name="username" id="id_username" autocomplete="username" autofocus>
+      </div>
+      <div class="login-field">
+        <label for="id_password">Пароль</label>
+        <input type="password" name="password" id="id_password" autocomplete="current-password">
+      </div>
+      <button type="submit" class="login-btn">Войти</button>
+    </form>
+
+    <a href="/" class="login-back">← На главную</a>
+  </div>
+</div>
+</body>
+</html>

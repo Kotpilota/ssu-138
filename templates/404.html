@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}404 — Страница не найдена · ССУ-138{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/landing.css' %}">{% endblock %}
+{% block body %}
+<header class="site-header"><a href="/" class="header-logo"><img src="{% static 'img/icon.svg' %}" alt="" width="32" height="32"><span class="header-logo-name">ССУ-138</span></a></header>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px;">
+  <div>
+    <p style="font-family:var(--font-mono);font-size:80px;font-weight:500;color:var(--accent);line-height:1;">404</p>
+    <p style="font-family:var(--font-head);font-size:24px;margin:16px 0 8px;">Страница не найдена</p>
+    <p style="color:var(--muted);margin-bottom:32px;">Запрашиваемая страница не существует или была перемещена.</p>
+    <a href="/" class="btn-accent" style="display:inline-block;padding:12px 28px;border-radius:4px;background:var(--accent);color:#fff;font-family:var(--font-mono);font-size:13px;">На главную</a>
+  </div>
+</div>
+{% endblock %}

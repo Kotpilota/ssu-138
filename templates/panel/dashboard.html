@@ -1,0 +1,94 @@
+{% extends "panel/base.html" %}
+{% load static %}
+{% block title %}Дашборд{% endblock %}
+{% block nav_dashboard %}active{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="panel-page-header">
+  <h1 class="panel-page-title">Дашборд</h1>
+  <span class="panel-page-sub">Последнее обновление: {% now "d.m.Y H:i" %}</span>
+</div>
+
+<!-- Stat cards -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <span class="stat-label">Сегодня</span>
+    <span class="stat-value">{{ stats.today }}</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-label">За неделю</span>
+    <span class="stat-value">{{ stats.week }}</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-label">За месяц</span>
+    <span class="stat-value">{{ stats.month }}</span>
+  </div>
+  <div class="stat-card stat-card--accent">
+    <span class="stat-label">Всего</span>
+    <span class="stat-value">{{ stats.total }}</span>
+  </div>
+</div>
+
+<!-- Charts -->
+<div class="charts-row">
+  <div class="chart-card chart-card--wide">
+    <p class="chart-title">Заявки за 30 дней</p>
+    <canvas id="chartLine" height="90"></canvas>
+  </div>
+  <div class="chart-card">
+    <p class="chart-title">По статусам</p>
+    <canvas id="chartDonut" height="180"></canvas>
+    <div class="donut-legend" id="donutLegend"></div>
+  </div>
+</div>
+
+<!-- Recent leads -->
+<div class="panel-section">
+  <div class="section-header">
+    <h2 class="section-title">Последние заявки</h2>
+    <a href="{% url 'panel_leads' %}" class="section-link">Все заявки →</a>
+  </div>
+  <div class="table-wrap">
+    <table class="leads-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Имя</th>
+          <th>Телефон</th>
+          <th>Тип объекта</th>
+          <th>Статус</th>
+          <th>Дата</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for lead in recent_leads %}
+        <tr>
+          <td class="td-id">{{ lead.pk }}</td>
+          <td>{{ lead.name }}</td>
+          <td class="td-mono">{{ lead.phone }}</td>
+          <td>{{ lead.get_object_type_display }}</td>
+          <td><span class="badge badge--{{ lead.status }}">{{ lead.get_status_display }}</span></td>
+          <td class="td-date td-mono">{{ lead.created_at|date:"d.m.y H:i" }}</td>
+          <td><a href="{% url 'panel_lead_detail' lead.pk %}" class="table-link">→</a></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" class="td-empty">Заявок пока нет</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  const chartData = {{ chart_json|safe }};
+  const statusData = {{ status_json|safe }};
+  initDashboardCharts(chartData, statusData);
+</script>
+{% endblock %}

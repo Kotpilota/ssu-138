@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Политика обработки персональных данных — ССУ-138{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/landing.css' %}">
+<style>
+.privacy-page { max-width: 800px; margin: 100px auto 80px; padding: 0 32px; }
+.privacy-page h1 { font-family: var(--font-head); font-size: 2.5rem; font-weight: 700; margin-bottom: 8px; }
+.privacy-page .updated { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; margin-bottom: 40px; display: block; }
+.privacy-page h2 { font-family: var(--font-head); font-size: 1.25rem; font-weight: 700; margin: 32px 0 12px; }
+.privacy-page p, .privacy-page li { font-size: 15px; color: var(--muted); line-height: 1.75; margin-bottom: 12px; }
+.privacy-page ul { padding-left: 20px; margin-bottom: 12px; }
+.privacy-page a { color: var(--accent); }
+.stub-notice { background: rgba(242,77,32,0.08); border: 1px solid var(--accent); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 32px; font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.06em; }
+</style>
+{% endblock %}
+
+{% block body %}
+<header class="site-header" role="banner">
+  <a href="/" class="header-logo" aria-label="ССУ-138 — главная">
+    <img src="{% static 'img/icon.svg' %}" alt="Логотип ССУ-138" width="32" height="32">
+    <span class="header-logo-name">ССУ-138</span>
+  </a>
+</header>
+<main>
+  <div class="privacy-page">
+    <div class="stub-notice">⚠ ЗАГЛУШКА — требует заполнения юристом до публикации</div>
+    <h1>Политика обработки персональных данных</h1>
+    <span class="updated">Дата вступления в силу: [ДАТА]</span>
+
+    <h2>1. Оператор персональных данных</h2>
+    <p>[ПОЛНОЕ НАИМЕНОВАНИЕ ОРГАНИЗАЦИИ], ИНН [ИНН], ОГРН [ОГРН], юридический адрес: [АДРЕС].</p>
+
+    <h2>2. Цели обработки</h2>
+    <ul>
+      <li>Обработка заявок через форму сайта и связь с потенциальными клиентами;</li>
+      <li>Выполнение требований законодательства РФ.</li>
+    </ul>
+
+    <h2>3. Состав персональных данных</h2>
+    <ul>
+      <li>Имя (фамилия, имя, отчество);</li>
+      <li>Контактный телефон;</li>
+      <li>Текст обращения.</li>
+    </ul>
+
+    <h2>4. Правовое основание</h2>
+    <p>Федеральный закон от 27.07.2006 № 152-ФЗ «О персональных данных». Согласие субъекта (ст. 9 ФЗ-152).</p>
+
+    <h2>5. Хранение и защита</h2>
+    <p>Данные хранятся на серверах на территории РФ. Оператор применяет технические и организационные меры защиты.</p>
+
+    <h2>6. Передача третьим лицам</h2>
+    <p>Персональные данные не передаются третьим лицам без согласия субъекта, кроме случаев, предусмотренных законом.</p>
+
+    <h2>7. Права субъекта</h2>
+    <ul>
+      <li>Получить информацию об обработке данных;</li>
+      <li>Потребовать уточнения, блокирования или уничтожения данных;</li>
+      <li>Отозвать согласие на обработку.</li>
+    </ul>
+    <p>Для реализации прав: <a href="mailto:{{ SITE_EMAIL }}">{{ SITE_EMAIL }}</a></p>
+
+    <h2>8. Срок хранения</h2>
+    <p>[СРОК ХРАНЕНИЯ]</p>
+
+    <h2>9. Контакты оператора</h2>
+    <p><a href="mailto:{{ SITE_EMAIL }}">{{ SITE_EMAIL }}</a> · <a href="tel:{{ SITE_PHONE }}">{{ SITE_PHONE }}</a></p>
+  </div>
+</main>
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-bottom">
+    <span class="footer-cr">© 2008–2026 ССУ-138</span>
+    <a href="/" class="footer-cr" style="color:var(--accent)">← На главную</a>
+  </div>
+</footer>
+{% endblock %}

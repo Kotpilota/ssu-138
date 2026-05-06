@@ -1,32 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Django
+*.log
+db.sqlite3
+staticfiles/
+media/
+
+# Env
+.env
+.env.local
+.env.prod
+
 # OS
 .DS_Store
 Thumbs.db
-desktop.ini
 
-# Editors
+# IDE
 .vscode/
 .idea/
 *.swp
-*~
 
-# Local Claude config
+# Claude
 .claude/
 
-# Local working files
-briefs/_local*
+# Virtual env
+.venv/
+venv/
 
-# Internal deploy notes (содержит SSH alias и пути на сервере — держим локально)
-DEPLOY.md
-
-# Исходники изображений в корне (дубликаты — уже скопированы в variants/* и landing/)
-/Бочаров ручей.webp
-/артек.jpg
-/Военный госпиталь.jpg
-/Благодарственное письмо.jpg
-
-# Внутренние документы заказчика
-/Задание.txt
-
-# Variant D — пока не публикуется
-# (раскомментируй чтобы исключить из репо)
-# variants/variant-D/
+# Data
+data/leads.jsonl

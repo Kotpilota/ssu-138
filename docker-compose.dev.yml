@@ -1,0 +1,45 @@
+services:
+  web:
+    build: .
+    container_name: ssu138-web-dev
+    restart: unless-stopped
+    env_file: .env.local
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: >
+      python manage.py runserver 0.0.0.0:8000
+        --settings=config.settings.local
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - internal
+
+  db:
+    image: postgres:16-alpine
+    container_name: ssu138-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ssu138
+      POSTGRES_USER: ssu138
+      POSTGRES_PASSWORD: ssu138dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg_data_dev:/var/lib/postgresql/data
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ssu138 -d ssu138"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pg_data_dev:
+
+networks:
+  internal:
+    driver: bridge

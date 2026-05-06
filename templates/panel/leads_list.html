@@ -1,0 +1,104 @@
+{% extends "panel/base.html" %}
+{% load static %}
+{% block title %}Заявки{% endblock %}
+{% block nav_leads %}active{% endblock %}
+
+{% block content %}
+<div class="panel-page-header">
+  <h1 class="panel-page-title">Заявки</h1>
+  <a href="{% url 'panel_leads_export' %}{% if request.GET.urlencode %}?{{ request.GET.urlencode }}{% endif %}" class="btn-sm">
+    ↓ CSV
+  </a>
+</div>
+
+<!-- Filters -->
+<form method="get" class="filters-bar">
+  <div class="filter-group">
+    <label class="filter-label">Статус</label>
+    <select name="status" class="filter-select">
+      <option value="">Все</option>
+      {% for val, label in status_choices %}
+      <option value="{{ val }}" {% if filters.status == val %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="filter-group">
+    <label class="filter-label">Тип объекта</label>
+    <select name="object_type" class="filter-select">
+      <option value="">Все</option>
+      {% for val, label in object_type_choices %}
+      <option value="{{ val }}" {% if filters.object_type == val %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="filter-group">
+    <label class="filter-label">С даты</label>
+    <input type="date" name="date_from" class="filter-input" value="{{ filters.date_from }}">
+  </div>
+  <div class="filter-group">
+    <label class="filter-label">По дату</label>
+    <input type="date" name="date_to" class="filter-input" value="{{ filters.date_to }}">
+  </div>
+  <div class="filter-actions">
+    <button type="submit" class="btn-filter">Применить</button>
+    <a href="{% url 'panel_leads' %}" class="btn-filter btn-filter--reset">Сбросить</a>
+  </div>
+</form>
+
+<!-- Table -->
+<div class="table-wrap">
+  <table class="leads-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Имя</th>
+        <th>Телефон</th>
+        <th>Тип объекта</th>
+        <th>Статус</th>
+        <th>Email</th>
+        <th>TG</th>
+        <th>Дата</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for lead in leads %}
+      <tr>
+        <td class="td-id">{{ lead.pk }}</td>
+        <td>{{ lead.name }}</td>
+        <td class="td-mono">{{ lead.phone }}</td>
+        <td>{{ lead.get_object_type_display }}</td>
+        <td><span class="badge badge--{{ lead.status }}">{{ lead.get_status_display }}</span></td>
+        <td class="td-center">
+          {% if lead.email_sent %}<span class="icon-ok" title="Отправлен">✓</span>{% else %}<span class="icon-no" title="Не отправлен">–</span>{% endif %}
+        </td>
+        <td class="td-center">
+          {% if lead.telegram_sent %}<span class="icon-ok" title="Отправлен">✓</span>{% else %}<span class="icon-no" title="Не отправлен">–</span>{% endif %}
+        </td>
+        <td class="td-date td-mono">{{ lead.created_at|date:"d.m.y H:i" }}</td>
+        <td><a href="{% url 'panel_lead_detail' lead.pk %}" class="table-link">→</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="9" class="td-empty">Заявок не найдено</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination -->
+{% if is_paginated %}
+<div class="pagination">
+  {% if page_obj.has_previous %}
+  <a href="?{% if filters %}{% for k,v in filters.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}{% endif %}page={{ page_obj.previous_page_number }}" class="page-link">← Пред.</a>
+  {% endif %}
+
+  <span class="page-info">Стр. {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+  {% if page_obj.has_next %}
+  <a href="?{% if filters %}{% for k,v in filters.items %}{% if k != 'page' %}{{ k }}={{ v }}&{% endif %}{% endfor %}{% endif %}page={{ page_obj.next_page_number }}" class="page-link">След. →</a>
+  {% endif %}
+</div>
+{% endif %}
+
+<p class="results-count">Найдено: {{ paginator.count }} заявок</p>
+{% endblock %}

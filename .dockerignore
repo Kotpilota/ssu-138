@@ -1,0 +1,15 @@
+.git
+.gitignore
+.claude/
+.vscode/
+.idea/
+__pycache__/
+*.pyc
+*.pyo
+.env
+.env.local
+db.sqlite3
+media/
+staticfiles/
+*.md
+deploy/

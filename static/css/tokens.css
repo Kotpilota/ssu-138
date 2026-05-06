@@ -1,0 +1,32 @@
+/* ============================================================
+   ДИЗАЙН-ТОКЕНЫ — ССУ-138 Industrial/Engineering
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Palette */
+  --bg:          #111418;
+  --surface:     #1A1E24;
+  --steel:       #2A2F36;
+  --white:       #FFFFFF;
+  --text:        #E6E8EB;
+  --muted:       #8A8F98;
+  --accent:      #F24D20;
+  --accent-h:    #FF6B3D;
+  --footer-bg:   #0A0C0F;
+  --success:     #4CAF50;
+  --danger:      #F24D20;
+
+  /* Typography */
+  --font-head:   'Space Grotesk', sans-serif;
+  --font-body:   'Inter', sans-serif;
+  --font-mono:   'JetBrains Mono', monospace;
+
+  /* Radius / border */
+  --radius:      4px;
+  --border:      1px solid var(--steel);
+
+  /* Header height */
+  --header-h:    64px;
+}
