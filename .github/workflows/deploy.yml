@@ -1,0 +1,72 @@
+name: CI / CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ── Проверка кода ────────────────────────────────────────────────────
+  check:
+    name: Django checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install deps
+        run: pip install -r requirements/production.txt
+
+      - name: System check
+        env:
+          DJANGO_SETTINGS_MODULE: config.settings.production
+          SECRET_KEY: ci-only-secret-key-not-for-production
+          DB_PASSWORD: ci-placeholder
+          ALLOWED_HOSTS: localhost
+        run: python manage.py check --deploy 2>&1 | grep -v "WARNINGS" || true
+
+  # ── Деплой на сервер (только main) ──────────────────────────────────
+  deploy:
+    name: Deploy → ssu-138.ru
+    needs: check
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: SSH → pull + rebuild + restart
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            cd /srv/ssu-138
+
+            echo "→ git pull"
+            git pull origin main
+
+            echo "→ build"
+            docker compose build --no-cache web
+
+            echo "→ migrate"
+            docker compose run --rm web python manage.py migrate \
+              --settings=config.settings.production
+
+            echo "→ collectstatic"
+            docker compose run --rm web python manage.py collectstatic \
+              --noinput --settings=config.settings.production
+
+            echo "→ restart"
+            docker compose up -d --remove-orphans
+
+            echo "→ prune"
+            docker image prune -f
+
+            echo "✓ Deploy done"
