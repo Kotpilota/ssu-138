@@ -10,13 +10,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev gcc \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements/production.txt requirements/production.txt
+COPY requirements/ requirements/
 RUN pip install -r requirements/production.txt
 
 COPY . .
-
-RUN python manage.py collectstatic --noinput \
-    --settings=config.settings.production || true
 
 EXPOSE 8000
 

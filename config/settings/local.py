@@ -16,6 +16,10 @@ LEAD_RECIPIENT_EMAIL = "dev@localhost"
 
 TELEGRAM_ENABLED = False
 
+# django-ratelimit: в dev LocMemCache нормально, заглушаем system checks
+RATELIMIT_ENABLE = False
+SILENCED_SYSTEM_CHECKS = ["django_ratelimit.E003", "django_ratelimit.W001"]
+
 try:
     import debug_toolbar
     INSTALLED_APPS += ["debug_toolbar"]

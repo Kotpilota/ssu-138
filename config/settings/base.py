@@ -13,6 +13,8 @@ INSTALLED_APPS = [
     "apps.core",
     "apps.leads",
     "apps.panel",
+    # third-party
+    "django_ratelimit",
 ]
 
 MIDDLEWARE = [
@@ -75,6 +77,8 @@ LOGOUT_REDIRECT_URL = "/panel/login/"
 SITE_PHONE = "+7 (000) 000-00-00"
 SITE_EMAIL = "info@ssu-138.ru"
 SITE_ADDRESS = "г. Москва"
+SITE_INN = ""
+SITE_OGRN = ""
 
 # Telegram
 TELEGRAM_ENABLED = False

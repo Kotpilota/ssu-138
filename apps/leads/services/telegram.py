@@ -30,8 +30,12 @@ def send_telegram_message(text: str) -> bool:
         )
         resp.raise_for_status()
         return True
-    except requests.RequestException as e:
-        logger.error("Telegram send error: %s", e)
+    except requests.HTTPError as e:
+        # Логируем только статус, не URL — URL содержит токен бота
+        logger.error("Telegram HTTP error: %s", e.response.status_code)
+        return False
+    except requests.RequestException:
+        logger.error("Telegram send failed (network error)")
         return False
 
 

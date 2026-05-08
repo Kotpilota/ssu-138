@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 def notify_new_lead(lead):
     """Отправляет email + Telegram в отдельном потоке (не блокирует ответ)."""
-    t = threading.Thread(target=_send_notifications, args=(lead.pk,), daemon=True)
+    t = threading.Thread(target=_send_notifications, args=(lead.pk,))
     t.start()
 
 

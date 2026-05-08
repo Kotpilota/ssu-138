@@ -58,6 +58,16 @@ TELEGRAM_THREAD_ID = os.environ.get("TELEGRAM_THREAD_ID")
 SITE_PHONE = os.environ.get("SITE_PHONE", "+7 (000) 000-00-00")
 SITE_EMAIL = os.environ.get("SITE_EMAIL", "info@ssu-138.ru")
 SITE_ADDRESS = os.environ.get("SITE_ADDRESS", "г. Москва")
+SITE_INN = os.environ.get("SITE_INN", "")
+SITE_OGRN = os.environ.get("SITE_OGRN", "")
+
+# Cache (для django-ratelimit; при наличии Redis заменить на RedisCache)
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": "/tmp/django_cache",
+    }
+}
 
 # Logging
 LOGGING = {

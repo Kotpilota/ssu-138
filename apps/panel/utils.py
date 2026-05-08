@@ -3,18 +3,26 @@ import io
 from apps.leads.models import Lead
 
 
+def _safe_csv_value(value: str) -> str:
+    """Защита от CSV Injection: префикс ' для строк начинающихся с формульных символов."""
+    s = str(value) if value is not None else ""
+    if s and s[0] in ("=", "+", "-", "@", "\t", "\r"):
+        return "'" + s
+    return s
+
+
 def leads_to_csv(queryset) -> str:
     output = io.StringIO()
-    writer = csv.writer(output)
+    writer = csv.writer(output, quoting=csv.QUOTE_ALL)
     writer.writerow(["ID", "Имя", "Телефон", "Тип объекта", "Сообщение", "Статус", "Email отправлен", "TG отправлен", "Создана"])
     for lead in queryset:
         writer.writerow([
             lead.pk,
-            lead.name,
-            lead.phone,
-            lead.get_object_type_display(),
-            lead.message,
-            lead.get_status_display(),
+            _safe_csv_value(lead.name),
+            _safe_csv_value(lead.phone),
+            _safe_csv_value(lead.get_object_type_display()),
+            _safe_csv_value(lead.message),
+            _safe_csv_value(lead.get_status_display()),
             "Да" if lead.email_sent else "Нет",
             "Да" if lead.telegram_sent else "Нет",
             lead.created_at.strftime("%d.%m.%Y %H:%M"),
