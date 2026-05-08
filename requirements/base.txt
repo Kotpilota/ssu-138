@@ -5,3 +5,4 @@ whitenoise==6.8.2
 requests==2.32.3
 Pillow==11.1.0
 django-ratelimit==4.1.0
+pymemcache==4.0.0
