@@ -63,10 +63,11 @@ SITE_OGRN = os.environ.get("SITE_OGRN", "")
 SITE_LEGAL_NAME = os.environ.get("SITE_LEGAL_NAME", "ССУ-138")
 SITE_ADDRESS_LEGAL = os.environ.get("SITE_ADDRESS_LEGAL", "")
 
-# Cache (LocMemCache поддерживает атомарный инкремент для django-ratelimit)
+# Cache (DatabaseCache — shared, поддерживает атомарный инкремент для django-ratelimit)
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "django_cache",
     }
 }
 
