@@ -333,6 +333,18 @@
   </div>
 </footer>
 
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Согласие на использование cookies" hidden>
+  <p class="cookie-text">
+    Мы используем cookies для корректной работы сайта. Продолжая пользоваться сайтом, вы соглашаетесь с
+    <a href="{% url 'privacy' %}" target="_blank" rel="noopener">политикой обработки персональных данных</a>.
+  </p>
+  <div class="cookie-actions">
+    <button id="cookie-accept" class="btn-cookie btn-cookie--accept">Принять</button>
+    <button id="cookie-decline" class="btn-cookie btn-cookie--decline">Отклонить</button>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block extra_js %}

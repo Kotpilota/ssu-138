@@ -79,6 +79,8 @@ SITE_EMAIL = "info@ssu-138.ru"
 SITE_ADDRESS = "г. Москва"
 SITE_INN = ""
 SITE_OGRN = ""
+SITE_LEGAL_NAME = "ССУ-138"
+SITE_ADDRESS_LEGAL = ""
 
 # Telegram
 TELEGRAM_ENABLED = False

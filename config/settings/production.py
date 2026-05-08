@@ -60,6 +60,8 @@ SITE_EMAIL = os.environ.get("SITE_EMAIL", "info@ssu-138.ru")
 SITE_ADDRESS = os.environ.get("SITE_ADDRESS", "г. Москва")
 SITE_INN = os.environ.get("SITE_INN", "")
 SITE_OGRN = os.environ.get("SITE_OGRN", "")
+SITE_LEGAL_NAME = os.environ.get("SITE_LEGAL_NAME", "ССУ-138")
+SITE_ADDRESS_LEGAL = os.environ.get("SITE_ADDRESS_LEGAL", "")
 
 # Cache (для django-ratelimit; при наличии Redis заменить на RedisCache)
 CACHES = {

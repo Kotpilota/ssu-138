@@ -129,3 +129,15 @@ document.querySelectorAll('.btn-outline').forEach(btn => {
   btn.addEventListener('mouseenter', () => arrow.style.transform = 'translateX(4px)');
   btn.addEventListener('mouseleave', () => arrow.style.transform = '');
 });
+
+// === Cookie consent ===
+const cookieBanner = document.getElementById('cookie-banner');
+if (cookieBanner && !getCookie('cookie_consent')) {
+  cookieBanner.hidden = false;
+  const setConsent = (val) => {
+    document.cookie = `cookie_consent=${val}; max-age=31536000; path=/; SameSite=Lax`;
+    cookieBanner.hidden = true;
+  };
+  document.getElementById('cookie-accept')?.addEventListener('click', () => setConsent('accepted'));
+  document.getElementById('cookie-decline')?.addEventListener('click', () => setConsent('declined'));
+}
