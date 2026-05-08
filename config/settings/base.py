@@ -77,10 +77,10 @@ LOGOUT_REDIRECT_URL = "/panel/login/"
 SITE_PHONE = "+7 (000) 000-00-00"
 SITE_EMAIL = "info@ssu-138.ru"
 SITE_ADDRESS = "г. Москва"
-SITE_INN = ""
-SITE_OGRN = ""
-SITE_LEGAL_NAME = "ССУ-138"
-SITE_ADDRESS_LEGAL = ""
+SITE_INN = "9111027572"
+SITE_OGRN = "1219100000932"
+SITE_LEGAL_NAME = 'ООО "ССУ 138"'
+SITE_ADDRESS_LEGAL = "299053, г. Севастополь, ул. Отрадная, д. 15/1"
 
 # Telegram
 TELEGRAM_ENABLED = False
