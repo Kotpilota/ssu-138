@@ -50,20 +50,18 @@ def send_telegram_message(text: str) -> bool:
 
 
 def format_lead_message(lead) -> str:
-    status_icons = {"new": "🔔", "in_progress": "🔄", "closed": "✅", "spam": "🚫"}
-    icon = status_icons.get(lead.status, "📋")
-
     lines = [
-        f"{icon} <b>Новая заявка #{lead.pk}</b>",
+        f"🔔 <b>Новая заявка #{lead.pk}</b>",
         "",
         f"👤 <b>Имя:</b> {lead.name}",
         f"📞 <b>Телефон:</b> {lead.phone}",
         f"🏗 <b>Тип объекта:</b> {lead.get_object_type_display()}",
     ]
     if lead.message:
-        lines.append(f"💬 <b>Сообщение:</b> {lead.message}")
+        lines += ["", f"💬 {lead.message}"]
     lines += [
         "",
         f"🕐 {lead.created_at.strftime('%d.%m.%Y %H:%M')}",
+        f"🔗 https://ssu-138.ru/panel/leads/{lead.pk}/",
     ]
     return "\n".join(lines)
