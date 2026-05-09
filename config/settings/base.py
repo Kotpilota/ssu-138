@@ -74,13 +74,15 @@ LOGIN_REDIRECT_URL = "/panel/"
 LOGOUT_REDIRECT_URL = "/panel/login/"
 
 # Site-wide settings (overridable via env in production)
-SITE_PHONE = "+7 (000) 000-00-00"
+SITE_PHONE = "+7 (916) 922-22-24"
 SITE_EMAIL = "info@ssu-138.ru"
 SITE_ADDRESS = "г. Москва"
 SITE_INN = "9111027572"
 SITE_OGRN = "1219100000932"
 SITE_LEGAL_NAME = 'ООО "ССУ 138"'
 SITE_ADDRESS_LEGAL = "299053, г. Севастополь, ул. Отрадная, д. 15/1"
+
+SITE_URL = "https://ssu-138.ru"
 
 # Telegram
 TELEGRAM_ENABLED = False

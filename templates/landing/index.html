@@ -3,6 +3,66 @@
 
 {% block title %}ССУ-138 — Строительство объектов федерального уровня{% endblock %}
 {% block description %}ССУ-138 — строительство, проектирование, спецтехника. Объекты федерального уровня с 2008 года. Москва, Сочи, Крым, Севастополь.{% endblock %}
+{% block og_title %}ССУ-138 — Строительство объектов федерального уровня{% endblock %}
+{% block og_description %}ССУ-138 — строительство, проектирование, спецтехника. Объекты федерального уровня с 2008 года. Москва, Сочи, Крым, Севастополь.{% endblock %}
+{% block twitter_title %}ССУ-138 — Строительство объектов федерального уровня{% endblock %}
+{% block twitter_description %}ССУ-138 — строительство, проектирование, спецтехника. Объекты федерального уровня с 2008 года.{% endblock %}
+
+{% block json_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "{{ SITE_URL }}/#organization",
+      "name": "ССУ-138",
+      "legalName": "{{ SITE_LEGAL_NAME }}",
+      "url": "{{ SITE_URL }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ SITE_URL }}{% static 'img/icon.svg' %}"
+      },
+      "telephone": "{{ SITE_PHONE }}",
+      "email": "{{ SITE_EMAIL }}",
+      "foundingDate": "2008",
+      "description": "Специализированное строительное управление. Строительство объектов федерального уровня: промышленных, гражданских, военных и социальных. Полный цикл — от проектирования до сдачи под ключ.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Отрадная, д. 15/1",
+        "addressLocality": "Севастополь",
+        "postalCode": "299053",
+        "addressCountry": "RU"
+      },
+      "areaServed": [
+        {"@type": "City", "name": "Москва"},
+        {"@type": "City", "name": "Сочи"},
+        {"@type": "AdministrativeArea", "name": "Крым"},
+        {"@type": "City", "name": "Севастополь"}
+      ],
+      "sameAs": []
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ SITE_URL }}/#website",
+      "url": "{{ SITE_URL }}",
+      "name": "ССУ-138",
+      "publisher": {"@id": "{{ SITE_URL }}/#organization"}
+    },
+    {
+      "@type": "WebPage",
+      "@id": "{{ SITE_URL }}/#webpage",
+      "url": "{{ SITE_URL }}/",
+      "name": "ССУ-138 — Строительство объектов федерального уровня",
+      "description": "ССУ-138 — строительство, проектирование, спецтехника. Объекты федерального уровня с 2008 года. Москва, Сочи, Крым, Севастополь.",
+      "isPartOf": {"@id": "{{ SITE_URL }}/#website"},
+      "about": {"@id": "{{ SITE_URL }}/#organization"},
+      "inLanguage": "ru-RU"
+    }
+  ]
+}
+</script>
+{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/landing.css' %}">

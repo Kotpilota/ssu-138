@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -5,8 +6,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}ССУ-138{% endblock %}</title>
   <meta name="description" content="{% block description %}ССУ-138 — строительство объектов федерального уровня. Москва, Сочи, Крым, Севастополь.{% endblock %}">
-  <link rel="icon" href="{% load static %}{% static 'img/icon.svg' %}" type="image/svg+xml">
-  {% load static %}
+  <link rel="canonical" href="{{ SITE_URL }}{{ request.path }}">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="ССУ-138">
+  <meta property="og:url" content="{{ SITE_URL }}{{ request.path }}">
+  <meta property="og:title" content="{% block og_title %}ССУ-138 — Строительство объектов федерального уровня{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}ССУ-138 — строительство, проектирование, спецтехника. Объекты федерального уровня с 2008 года. Москва, Сочи, Крым, Севастополь.{% endblock %}">
+  <meta property="og:image" content="{% block og_image %}{{ SITE_URL }}{% static 'img/og-image.jpg' %}{% endblock %}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ССУ-138 — Специализированное строительное управление">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{% block twitter_title %}ССУ-138 — Строительство объектов федерального уровня{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}ССУ-138 — строительство, проектирование, спецтехника. Объекты федерального уровня с 2008 года.{% endblock %}">
+  <meta name="twitter:image" content="{{ SITE_URL }}{% static 'img/og-image.jpg' %}">
+
+  {% block json_ld %}{% endblock %}
+
+  <link rel="icon" href="{% static 'img/icon.svg' %}" type="image/svg+xml">
   <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
   {% block extra_css %}{% endblock %}
 </head>
