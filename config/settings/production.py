@@ -53,6 +53,7 @@ TELEGRAM_ENABLED = True
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
 TELEGRAM_THREAD_ID = os.environ.get("TELEGRAM_THREAD_ID")
+TELEGRAM_PROXY_URL = os.environ.get("TELEGRAM_PROXY_URL", "")
 
 # Site
 SITE_PHONE = os.environ.get("SITE_PHONE", "+7 (000) 000-00-00")

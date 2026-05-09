@@ -5,6 +5,14 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
+def _get_proxies():
+    """Возвращает словарь прокси если TELEGRAM_PROXY_URL задан в настройках."""
+    proxy_url = getattr(settings, "TELEGRAM_PROXY_URL", "")
+    if proxy_url:
+        return {"http": proxy_url, "https": proxy_url}
+    return None
+
+
 def send_telegram_message(text: str) -> bool:
     token = settings.TELEGRAM_BOT_TOKEN
     chat_id = settings.TELEGRAM_CHAT_ID
@@ -22,11 +30,13 @@ def send_telegram_message(text: str) -> bool:
     if thread_id:
         payload["message_thread_id"] = int(thread_id)
 
+    proxies = _get_proxies()
     try:
         resp = requests.post(
             f"https://api.telegram.org/bot{token}/sendMessage",
             json=payload,
-            timeout=5,
+            timeout=10,
+            proxies=proxies,
         )
         resp.raise_for_status()
         return True
@@ -34,8 +44,8 @@ def send_telegram_message(text: str) -> bool:
         # Логируем только статус, не URL — URL содержит токен бота
         logger.error("Telegram HTTP error: %s", e.response.status_code)
         return False
-    except requests.RequestException:
-        logger.error("Telegram send failed (network error)")
+    except requests.RequestException as e:
+        logger.error("Telegram send failed: %s", type(e).__name__)
         return False
 
 
