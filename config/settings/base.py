@@ -83,6 +83,7 @@ SITE_LEGAL_NAME = 'ООО "ССУ 138"'
 SITE_ADDRESS_LEGAL = "299053, г. Севастополь, ул. Отрадная, д. 15/1"
 
 SITE_URL = "https://ssu-138.ru"
+SITE_OG_IMAGE = ""  # Full URL; set via env in production when og-image.jpg is ready
 
 # Telegram
 TELEGRAM_ENABLED = False

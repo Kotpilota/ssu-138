@@ -63,6 +63,7 @@ SITE_INN = os.environ.get("SITE_INN", "")
 SITE_OGRN = os.environ.get("SITE_OGRN", "")
 SITE_LEGAL_NAME = os.environ.get("SITE_LEGAL_NAME", "ССУ-138")
 SITE_ADDRESS_LEGAL = os.environ.get("SITE_ADDRESS_LEGAL", "")
+SITE_OG_IMAGE = os.environ.get("SITE_OG_IMAGE", "")  # e.g. https://ssu-138.ru/static/img/og-image.jpg
 
 # Cache (Memcached — поддерживается django-ratelimit)
 CACHES = {
