@@ -1,6 +1,6 @@
 import re
 from django import forms
-from .models import Lead
+from .models import Lead, ContactMethod
 
 
 class LeadForm(forms.ModelForm):
@@ -12,16 +12,24 @@ class LeadForm(forms.ModelForm):
 
     class Meta:
         model = Lead
-        fields = ["name", "phone", "object_type", "message"]
+        fields = ["name", "phone", "email", "contact_method", "object_type", "message"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["object_type"].required = False
+        self.fields["email"].required = False
+        self.fields["contact_method"].required = False
 
     def clean_object_type(self):
         value = self.cleaned_data.get("object_type", "")
         if not value:
             return "other"
+        return value
+
+    def clean_contact_method(self):
+        value = self.cleaned_data.get("contact_method", "")
+        if value not in dict(ContactMethod.choices):
+            return ContactMethod.PHONE
         return value
 
     def clean_website(self):
@@ -32,11 +40,18 @@ class LeadForm(forms.ModelForm):
 
     def clean_phone(self):
         phone = self.cleaned_data.get("phone", "").strip()
-        # Нормализуем: убираем пробелы, скобки, дефисы
         digits_only = re.sub(r"[\s\-\(\)]", "", phone)
         if not re.match(r"^\+?[0-9]{7,15}$", digits_only):
             raise forms.ValidationError("Введите корректный номер телефона.")
         return phone
+
+    def clean(self):
+        cleaned = super().clean()
+        contact_method = cleaned.get("contact_method", ContactMethod.PHONE)
+        email = cleaned.get("email", "").strip()
+        if contact_method == ContactMethod.EMAIL and not email:
+            self.add_error("email", "Укажите email для связи.")
+        return cleaned
 
     def clean_privacy(self):
         value = self.cleaned_data.get("privacy")

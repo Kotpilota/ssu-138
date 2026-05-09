@@ -1,7 +1,10 @@
 🔔 Новая заявка #{{ lead.pk }}
 
 👤 Имя: {{ lead.name }}
-📞 Телефон: {{ lead.phone }}
+📞 Телефон: {{ lead.phone }}{% if lead.email %}
+📧 Email: {{ lead.email }}{% endif %}
+{% if lead.contact_method == "email" %}📧 Связаться: Написать на email{% else %}📞 Связаться: Позвонить{% endif %}
+
 🏗 Тип объекта: {{ lead.get_object_type_display }}
 {% if lead.message %}
 💬 {{ lead.message }}

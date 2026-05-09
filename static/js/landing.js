@@ -56,6 +56,22 @@ if (counters.length) {
   counters.forEach(el => cObs.observe(el));
 }
 
+// === Contact method toggle ===
+const methodRadios = document.querySelectorAll('[name="contact_method"]');
+const emailField = document.getElementById('email-field');
+const emailInput = document.getElementById('email');
+if (methodRadios.length && emailField) {
+  methodRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      const isEmail = radio.value === 'email' && radio.checked;
+      emailField.hidden = !isEmail;
+      if (emailInput) emailInput.required = isEmail;
+      document.querySelectorAll('.method-option').forEach(el => el.classList.remove('method-option--active'));
+      radio.closest('.method-option')?.classList.add('method-option--active');
+    });
+  });
+}
+
 // === Lead form (AJAX) ===
 const form = document.getElementById('lead-form');
 if (form) {

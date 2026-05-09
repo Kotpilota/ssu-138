@@ -50,13 +50,19 @@ def send_telegram_message(text: str) -> bool:
 
 
 def format_lead_message(lead) -> str:
+    contact_icon = "📧" if lead.contact_method == "email" else "📞"
+    contact_label = "Написать на email" if lead.contact_method == "email" else "Позвонить"
+
     lines = [
         f"🔔 <b>Новая заявка #{lead.pk}</b>",
         "",
         f"👤 <b>Имя:</b> {lead.name}",
         f"📞 <b>Телефон:</b> {lead.phone}",
-        f"🏗 <b>Тип объекта:</b> {lead.get_object_type_display()}",
     ]
+    if lead.email:
+        lines.append(f"📧 <b>Email:</b> {lead.email}")
+    lines.append(f"{contact_icon} <b>Связаться:</b> {contact_label}")
+    lines.append(f"🏗 <b>Тип объекта:</b> {lead.get_object_type_display()}")
     if lead.message:
         lines += ["", f"💬 {lead.message}"]
     lines += [

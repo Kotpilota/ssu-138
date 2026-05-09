@@ -345,6 +345,19 @@ ul { list-style: none; }
 /* honeypot */
 .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
+/* contact method toggle */
+.contact-method-group { display: flex; gap: 8px; }
+.method-option {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 10px 14px; border: var(--border); border-radius: var(--radius);
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
+  color: var(--muted); cursor: pointer; transition: border-color 0.15s, color 0.15s;
+  user-select: none;
+}
+.method-option input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+.method-option:hover { border-color: var(--text); color: var(--text); }
+.method-option--active { border-color: var(--accent); color: var(--accent); }
+
 /* privacy */
 .form-group--privacy { margin-bottom: 20px; }
 .checkbox-label {

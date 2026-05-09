@@ -10,9 +10,9 @@ class LeadNoteInline(admin.TabularInline):
 
 @admin.register(Lead)
 class LeadAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "phone", "object_type", "status", "email_sent", "telegram_sent", "created_at")
-    list_filter = ("status", "object_type", "email_sent", "telegram_sent")
-    search_fields = ("name", "phone", "message")
+    list_display = ("id", "name", "phone", "contact_method", "object_type", "status", "email_sent", "telegram_sent", "created_at")
+    list_filter = ("status", "contact_method", "object_type", "email_sent", "telegram_sent")
+    search_fields = ("name", "phone", "email", "message")
     readonly_fields = ("created_at", "updated_at", "ip", "user_agent", "email_sent", "telegram_sent")
     inlines = [LeadNoteInline]
     date_hierarchy = "created_at"

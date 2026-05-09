@@ -19,9 +19,19 @@ class ObjectType(models.TextChoices):
     OTHER = "other", "Другое"
 
 
+class ContactMethod(models.TextChoices):
+    PHONE = "phone", "Позвонить"
+    EMAIL = "email", "Написать на email"
+
+
 class Lead(models.Model):
     name = models.CharField("Имя", max_length=120)
     phone = models.CharField("Телефон", max_length=32)
+    email = models.EmailField("Email", blank=True)
+    contact_method = models.CharField(
+        "Способ связи", max_length=10,
+        choices=ContactMethod.choices, default=ContactMethod.PHONE,
+    )
     object_type = models.CharField(
         "Тип объекта", max_length=32,
         choices=ObjectType.choices, default=ObjectType.OTHER,
