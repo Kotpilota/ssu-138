@@ -1,5 +1,33 @@
 'use strict';
 
+// === Mobile sidebar toggle ===
+(function () {
+  const sidebar  = document.getElementById('sidebar');
+  const overlay  = document.getElementById('sidebarOverlay');
+  const mobileBtn = document.getElementById('mobileHamburger');
+  const desktopBtn = document.getElementById('sidebarToggle');
+
+  function openSidebar() {
+    sidebar?.classList.add('open');
+    overlay?.classList.add('open');
+  }
+  function closeSidebar() {
+    sidebar?.classList.remove('open');
+    overlay?.classList.remove('open');
+  }
+
+  mobileBtn?.addEventListener('click', openSidebar);
+  desktopBtn?.addEventListener('click', closeSidebar);
+  overlay?.addEventListener('click', closeSidebar);
+
+  // Close on nav link click (mobile)
+  sidebar?.querySelectorAll('.sidebar-link').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) closeSidebar();
+    });
+  });
+})();
+
 // === Chart.js — инициализация (если есть данные на странице) ===
 document.addEventListener('DOMContentLoaded', () => {
   // Line chart (заявки по дням)

@@ -11,6 +11,13 @@
 </head>
 <body class="panel-body">
 
+<div class="mobile-topbar" id="mobileTopbar">
+  <button class="mobile-hamburger" id="mobileHamburger" aria-label="Открыть меню">&#9776;</button>
+  <a href="{% url 'panel_dashboard' %}" class="mobile-topbar-logo">ССУ-138</a>
+</div>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 <div class="panel-layout">
   <!-- Sidebar -->
   <aside class="panel-sidebar" id="sidebar">

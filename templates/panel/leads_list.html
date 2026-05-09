@@ -64,19 +64,19 @@
     <tbody>
       {% for lead in leads %}
       <tr>
-        <td class="td-id">{{ lead.pk }}</td>
-        <td>{{ lead.name }}</td>
-        <td class="td-mono">{{ lead.phone }}</td>
-        <td>{{ lead.get_object_type_display }}</td>
-        <td><span class="badge badge--{{ lead.status }}">{{ lead.get_status_display }}</span></td>
-        <td class="td-center">
+        <td class="td-id" data-label="#">{{ lead.pk }}</td>
+        <td data-label="Имя">{{ lead.name }}</td>
+        <td class="td-mono" data-label="Телефон">{{ lead.phone }}</td>
+        <td data-label="Тип объекта">{{ lead.get_object_type_display }}</td>
+        <td data-label="Статус"><span class="badge badge--{{ lead.status }}">{{ lead.get_status_display }}</span></td>
+        <td class="td-center col-email" data-label="Email">
           {% if lead.email_sent %}<span class="icon-ok" title="Отправлен">✓</span>{% else %}<span class="icon-no" title="Не отправлен">–</span>{% endif %}
         </td>
-        <td class="td-center">
+        <td class="td-center col-tg" data-label="TG">
           {% if lead.telegram_sent %}<span class="icon-ok" title="Отправлен">✓</span>{% else %}<span class="icon-no" title="Не отправлен">–</span>{% endif %}
         </td>
-        <td class="td-date td-mono">{{ lead.created_at|date:"d.m.y H:i" }}</td>
-        <td><a href="{% url 'panel_lead_detail' lead.pk %}" class="table-link">→</a></td>
+        <td class="td-date td-mono" data-label="Дата">{{ lead.created_at|date:"d.m.y H:i" }}</td>
+        <td class="td-action"><a href="{% url 'panel_lead_detail' lead.pk %}" class="table-link">→</a></td>
       </tr>
       {% empty %}
       <tr><td colspan="9" class="td-empty">Заявок не найдено</td></tr>
