@@ -35,33 +35,6 @@
       {% endif %}
     </div>
 
-    <!-- Technical info -->
-    <div class="detail-card">
-      <h2 class="detail-card-title">Технические данные</h2>
-      <dl class="detail-list">
-        <dt>IP-адрес</dt><dd class="td-mono">{{ lead.ip|default:"—" }}</dd>
-        <dt>Email уведомление</dt>
-        <dd>
-          {% if lead.email_sent %}<span class="icon-ok">✓ Отправлен</span>
-          {% else %}<span class="icon-no">✗ Не отправлен</span>{% endif %}
-        </dd>
-        <dt>Telegram уведомление</dt>
-        <dd>
-          {% if lead.telegram_sent %}<span class="icon-ok">✓ Отправлен</span>
-          {% else %}
-            <span class="icon-no">✗ Не отправлен</span>
-            <form method="post" action="{% url 'panel_lead_resend_tg' lead.pk %}" style="display:inline;margin-left:12px;">
-              {% csrf_token %}
-              <button type="submit" class="btn-xs">Отправить</button>
-            </form>
-          {% endif %}
-        </dd>
-        {% if lead.user_agent %}
-        <dt>User-Agent</dt><dd class="td-ua">{{ lead.user_agent|truncatechars:100 }}</dd>
-        {% endif %}
-      </dl>
-    </div>
-
     <!-- Notes -->
     <div class="detail-card">
       <h2 class="detail-card-title">Комментарии</h2>
