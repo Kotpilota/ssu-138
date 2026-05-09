@@ -430,11 +430,10 @@ ul { list-style: none; }
   color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px;
 }
 .contact-value { color: var(--text); font-size: 16px; margin-bottom: 24px; }
-.map-placeholder {
+.ymap-frame {
   margin-top: 32px; width: 100%; height: 280px;
-  background: var(--bg); border: var(--border); border-radius: var(--radius);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
-  color: var(--muted); font-size: 14px; letter-spacing: 0.04em;
+  border: var(--border); border-radius: var(--radius);
+  display: block;
 }
 
 /* ===== FOOTER ===== */
