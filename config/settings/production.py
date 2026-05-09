@@ -38,9 +38,9 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = "DENY"
 
-# Email (Mailcow)
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = os.environ.get("EMAIL_HOST", "mail.kotpilota.ru")
+# Email (Mailcow через host.docker.internal — SSL verify отключён для внутреннего хоста)
+EMAIL_BACKEND = "apps.core.email_backend.NoVerifyEmailBackend"
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "host.docker.internal")
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "true").lower() == "true"
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
