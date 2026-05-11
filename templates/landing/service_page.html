@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ service.meta_title }}{% endblock %}
+{% block description %}{{ service.meta_description }}{% endblock %}
+{% block og_title %}{{ service.og_title }}{% endblock %}
+{% block og_description %}{{ service.og_description }}{% endblock %}
+{% block twitter_title %}{{ service.og_title }}{% endblock %}
+{% block twitter_description %}{{ service.og_description }}{% endblock %}
+
+{% block extra_meta %}
+<meta name="keywords" content="{{ service.meta_keywords }}">
+<meta name="geo.region" content="RU">
+<meta name="geo.placename" content="Москва">
+<meta name="ICBM" content="55.7558, 37.6176">
+{% endblock %}
+
+{% block json_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Главная", "item": "{{ SITE_URL }}/" },
+        { "@type": "ListItem", "position": 2, "name": "{{ service.h1 }}", "item": "{{ SITE_URL }}/{{ slug }}/" }
+      ]
+    },
+    {
+      "@type": "Service",
+      "provider": {
+        "@type": ["Organization", "GeneralContractor"],
+        "@id": "{{ SITE_URL }}/#organization",
+        "name": "ССУ-138",
+        "url": "{{ SITE_URL }}"
+      },
+      "name": "{{ service.service_name_ld }}",
+      "description": "{{ service.service_desc_ld }}",
+      "areaServed": [
+        { "@type": "City", "name": "Москва" },
+        { "@type": "City", "name": "Сочи" },
+        { "@type": "AdministrativeArea", "name": "Крым" },
+        { "@type": "City", "name": "Севастополь" }
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/landing.css' %}">
+<style>
+.svc-hero {
+  padding: calc(var(--header-h) + 56px) 48px 56px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--muted); margin-bottom: 40px; letter-spacing: 0.06em;
+}
+.breadcrumb a { color: var(--muted); transition: color .2s; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb-sep { color: var(--steel); }
+.svc-features { background: var(--surface); }
+/* 4 карточки → сетка 2×2 */
+.svc-features .services-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+/* стат-числа: компактный размер, без переносов */
+.stats .stat-num { font-size: clamp(2rem, 4vw, 3.5rem); white-space: nowrap; }
+@media (max-width: 768px) {
+  .svc-hero { padding: calc(var(--header-h) + 40px) 24px 40px; }
+  .svc-features .services-grid { grid-template-columns: 1fr; }
+}
+</style>
+{% endblock %}
+
+{% block body %}
+
+<!-- HEADER -->
+<header class="site-header" role="banner">
+  <a href="/" class="header-logo" aria-label="ССУ-138 — главная">
+    <img src="{% static 'img/icon.svg' %}" alt="Логотип ССУ-138" width="32" height="32">
+    <span class="header-logo-name">ССУ-138</span>
+  </a>
+  <nav class="header-nav" aria-label="Основная навигация">
+    <a href="/#services">Услуги</a>
+    <a href="/#objects">Объекты</a>
+    <a href="/#about">О компании</a>
+    <a href="/#contacts">Контакты</a>
+  </nav>
+  <a href="#contacts" class="btn-accent">Оставить заявку</a>
+  <button class="menu-toggle" aria-label="Открыть меню" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <div class="svc-hero">
+    <nav class="breadcrumb" aria-label="Хлебные крошки">
+      <a href="/">ССУ-138</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>{{ service.label }}</span>
+    </nav>
+    <p class="hero-mono fade-up" style="margin-bottom:20px;">{{ service.label }} · ССУ-138 · С 2008</p>
+    <h1 class="hero-title fade-up" style="font-size:clamp(2rem,5vw,3.5rem);line-height:1.1;margin-bottom:24px;">
+      {{ service.h1 }}
+    </h1>
+    <p class="hero-sub fade-up" style="max-width:640px;margin-bottom:40px;">{{ service.subtitle }}</p>
+    <div class="hero-cta fade-up">
+      <a href="#contacts" class="btn-accent">Оставить заявку</a>
+      <a href="/" class="btn-outline">На главную <span class="arrow">→</span></a>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="svc-features services" aria-labelledby="features-title">
+    <div class="section-wrap">
+      <p class="section-mono fade-up">ВКЛЮЧАЕТ</p>
+      <h2 class="section-title fade-up" id="features-title">Что входит в услугу</h2>
+      <div class="services-grid">
+        {% for f in service.features %}
+        <article class="service-card fade-up">
+          <p class="card-num">{{ f.num }}</p>
+          <div class="card-rule"></div>
+          <h3 class="card-title">{{ f.title }}</h3>
+          <p class="card-desc">{{ f.desc }}</p>
+          <a href="#contacts" class="card-link">Оставить заявку →</a>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats" aria-label="Показатели компании">
+    <div class="stats-grid">
+      <div class="stat-item fade-up">
+        <div class="stat-num">17</div>
+        <div class="stat-label">лет на рынке</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-num">100+</div>
+        <div class="stat-label">сданных объектов</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-num">250&nbsp;000+</div>
+        <div class="stat-label">м² построено</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-num">50+</div>
+        <div class="stat-label">единиц спецтехники</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTS -->
+  <section class="contacts" id="contacts" aria-labelledby="contacts-title">
+    <div class="contacts-inner">
+
+      <div>
+        <p class="section-mono">ЗАЯВКА</p>
+        <h2 class="section-title" id="contacts-title" style="margin-bottom:32px;">Оставить заявку</h2>
+        <form class="contact-form" id="lead-form" novalidate>
+          {% csrf_token %}
+          <div class="hp-field" aria-hidden="true">
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="name">ИМЯ</label>
+            <input type="text" id="name" name="name" placeholder="Ваше имя" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="phone">ТЕЛЕФОН</label>
+            <input type="tel" id="phone" name="phone" placeholder="+7 (000) 000-00-00" required autocomplete="tel">
+          </div>
+          <div class="form-group">
+            <label>КАК С ВАМИ СВЯЗАТЬСЯ</label>
+            <div class="contact-method-group">
+              <label class="method-option method-option--active" id="method-phone-label">
+                <input type="radio" name="contact_method" value="phone" checked>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.14 13.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.05 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.81-.81a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 17z"/></svg>
+                Позвонить
+              </label>
+              <label class="method-option" id="method-email-label">
+                <input type="radio" name="contact_method" value="email">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+                Написать на email
+              </label>
+            </div>
+          </div>
+          <div class="form-group" id="email-field" hidden>
+            <label for="email">EMAIL</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="object_type">ТИП ОБЪЕКТА</label>
+            <select id="object_type" name="object_type">
+              <option value="">Выберите тип</option>
+              <option value="industrial">Промышленный</option>
+              <option value="civil">Гражданский</option>
+              <option value="military">Военный / государственный</option>
+              <option value="social">Социальный</option>
+              <option value="other">Другое</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">СООБЩЕНИЕ</label>
+            <textarea id="message" name="message" rows="4" placeholder="Опишите задачу..."></textarea>
+          </div>
+          <div class="form-group form-group--privacy">
+            <label class="checkbox-label">
+              <input type="checkbox" name="privacy" id="privacy" required>
+              <span>Согласен с <a href="{% url 'privacy' %}" target="_blank" rel="noopener">политикой обработки персональных данных</a></span>
+            </label>
+          </div>
+          <button type="submit" class="btn-submit">Отправить заявку</button>
+          <div id="form-status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <div>
+        <p class="section-mono">КОНТАКТЫ</p>
+        <h3 class="section-title" style="font-size:2rem;margin-bottom:32px;">Свяжитесь с нами</h3>
+        <p class="contact-label">Телефон</p>
+        <p class="contact-value"><a href="tel:{{ SITE_PHONE|default:'+70000000000' }}">{{ SITE_PHONE }}</a></p>
+        <p class="contact-label">Email</p>
+        <p class="contact-value"><a href="mailto:{{ SITE_EMAIL }}">{{ SITE_EMAIL }}</a></p>
+        <p class="contact-label">Адрес</p>
+        <p class="contact-value">{{ SITE_ADDRESS }}</p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">
+        <img src="{% static 'img/icon.svg' %}" alt="" width="32" height="32">
+        <span class="footer-logo-name">ССУ-138</span>
+      </div>
+      <p class="footer-desc">Специализированное строительное управление 138.<br>Государственные подряды, полный цикл строительства.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Услуги</h4>
+      <a href="/stroitelstvo/">Строительство</a>
+      <a href="/proektirovanie/">Проектирование</a>
+      <a href="/spetstehnika/">Спецтехника</a>
+    </div>
+    <div class="footer-col">
+      <h4>Объекты</h4>
+      <a href="/#objects">Бочаров ручей</a>
+      <a href="/#objects">МДЦ Артек</a>
+      <a href="/#objects">Военный госпиталь</a>
+    </div>
+    <div class="footer-col">
+      <h4>Контакты</h4>
+      <a href="tel:{{ SITE_PHONE }}">{{ SITE_PHONE }}</a>
+      <a href="mailto:{{ SITE_EMAIL }}">{{ SITE_EMAIL }}</a>
+      <p>{{ SITE_ADDRESS }}</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-cr">© 2008–{% now "Y" %} ССУ-138{% if SITE_INN %} · ИНН {{ SITE_INN }}{% endif %}{% if SITE_OGRN %} · ОГРН {{ SITE_OGRN }}{% endif %}</span>
+    <a href="{% url 'privacy' %}" class="footer-cr" style="color:var(--accent)">Политика конфиденциальности</a>
+  </div>
+</footer>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-label="Согласие на использование cookies" hidden>
+  <p class="cookie-text">
+    Мы используем cookies для корректной работы сайта. Продолжая пользоваться сайтом, вы соглашаетесь с
+    <a href="{% url 'privacy' %}" target="_blank" rel="noopener">политикой обработки персональных данных</a>.
+  </p>
+  <div class="cookie-actions">
+    <button id="cookie-accept" class="btn-cookie btn-cookie--accept">Принять</button>
+    <button id="cookie-decline" class="btn-cookie btn-cookie--decline">Отклонить</button>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/landing.js' %}"></script>
+{% endblock %}

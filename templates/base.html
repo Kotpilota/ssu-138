@@ -29,6 +29,7 @@
   {% if SITE_OG_IMAGE %}<meta name="twitter:image" content="{{ SITE_OG_IMAGE }}">{% endif %}
 
   {% block json_ld %}{% endblock %}
+  {% block extra_meta %}{% endblock %}
 
   <link rel="icon" href="{% static 'img/icon.svg' %}" type="image/svg+xml">
   <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
