@@ -56,7 +56,7 @@ TELEGRAM_THREAD_ID = os.environ.get("TELEGRAM_THREAD_ID")
 TELEGRAM_PROXY_URL = os.environ.get("TELEGRAM_PROXY_URL", "")
 
 # Site
-SITE_PHONE = os.environ.get("SITE_PHONE", "+7 (000) 000-00-00")
+SITE_PHONE = os.environ.get("SITE_PHONE", "+7 (916) 992-22-24")
 SITE_EMAIL = os.environ.get("SITE_EMAIL", "info@ssu-138.ru")
 SITE_ADDRESS = os.environ.get("SITE_ADDRESS", "г. Москва")
 SITE_INN = os.environ.get("SITE_INN", "")
