@@ -14,7 +14,9 @@ deploy:
     - ssh $SSH_USER@$SSH_SERVER "
         cd ~/projects/sites/ssu-138-preview &&
         git pull &&
-        docker compose up -d --build --force-recreate"
+        docker compose up -d --build --force-recreate &&
+        docker compose -f docker-compose.yml run --rm web python manage.py collectstatic --noinput &&
+        docker restart ssu138-web"
   after_script:
     - apk add --no-cache curl >/dev/null 2>&1 || true
     - |
