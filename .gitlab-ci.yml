@@ -1,0 +1,30 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+  script:
+    - ssh $SSH_USER@$SSH_SERVER "
+        cd ~/projects/sites/ssu-138-preview &&
+        git pull &&
+        docker compose restart"
+  after_script:
+    - apk add --no-cache curl >/dev/null 2>&1 || true
+    - |
+      if [ "$CI_JOB_STATUS" = "success" ]; then
+        TEXT="✅ ssu-138 задеплоен — ${CI_COMMIT_SHORT_SHA} (${CI_COMMIT_TITLE})"
+      else
+        TEXT="❌ ssu-138 деплой упал — ${CI_COMMIT_SHORT_SHA}"
+      fi
+      curl -sS "https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage" \
+        -d "chat_id=${TG_CHAT_ID}&message_thread_id=5" \
+        --data-urlencode "text=${TEXT}" || true
+  only:
+    - main
