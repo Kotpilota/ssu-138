@@ -15,6 +15,12 @@ RUN pip install -r requirements/production.txt
 
 COPY . .
 
+# Статика запекается в образ (контейнер stateless, без static-тома).
+# Прод-настройки требуют SECRET_KEY/DB_PASSWORD на импорте — даём build-заглушки (в образ не попадают).
+ENV DJANGO_SETTINGS_MODULE=config.settings.production
+RUN SECRET_KEY=build-dummy DB_PASSWORD=build-dummy \
+    python manage.py collectstatic --noinput
+
 EXPOSE 8000
 
 CMD ["gunicorn", "config.wsgi:application", \

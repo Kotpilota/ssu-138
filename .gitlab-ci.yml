@@ -1,32 +1,64 @@
-stages:
-  - deploy
+stages: [build, deploy]
 
-deploy:
-  stage: deploy
-  image: alpine:latest
-  before_script:
-    - apk add --no-cache openssh-client
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
-    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+variables:
+  TG_THREAD_DEPLOYS: "5"            # тред в TG для деплоев
+
+# Сборка образа → registry.kotpilota.ru (тег = commit SHA). Откат = деплой прошлого SHA.
+# collectstatic выполняется внутри Dockerfile, статика баком в образ (контейнер stateless).
+build:
+  stage: build
+  image: docker:27                  # docker + compose v2; хостовый сокет примонтирован раннером (dind не нужен)
   script:
-    - ssh $SSH_USER@$SSH_SERVER "
-        cd ~/projects/sites/ssu-138-preview &&
-        git pull &&
-        docker compose up -d --build --force-recreate &&
-        docker compose -f docker-compose.yml run --rm web python manage.py collectstatic --noinput &&
-        docker restart ssu138-web"
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+    - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "test" || $CI_COMMIT_BRANCH == "main"'
+
+# Общий деплой через хостовый docker-сокет + ОБЯЗАТЕЛЬНЫЕ TG-уведомления (старт/итог).
+# TG_* наследуются с группы kotpilota. Описание изменений на русском = текст коммита.
+.deploy:
+  stage: deploy
+  image: docker:27
+  variables:
+    REGISTRY_IMAGE: $CI_REGISTRY_IMAGE
+    IMAGE_TAG: $CI_COMMIT_SHORT_SHA
+  before_script:
+    - apk add --no-cache curl >/dev/null
+    - |
+      TEXT="🚀 ssu-138 [$ENV] деплой начат — ${CI_COMMIT_SHORT_SHA} (${CI_COMMIT_TITLE})"
+      curl -sS --max-time 10 "${TG_NOTIFY_URL}" -H "Content-Type: application/json" \
+        -d "{\"chat_id\":\"${TG_CHAT_ID}\",\"thread_id\":${TG_THREAD_DEPLOYS},\"text\":\"${TEXT}\"}" || true
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+    - docker compose --env-file "deploy/$ENV.env" -f compose.yaml pull
+    - docker compose --env-file "deploy/$ENV.env" -f compose.yaml up -d db memcached
+    - docker compose --env-file "deploy/$ENV.env" -f compose.yaml run --rm web python manage.py migrate --noinput
+    - docker compose --env-file "deploy/$ENV.env" -f compose.yaml up -d --remove-orphans
   after_script:
     - apk add --no-cache curl >/dev/null 2>&1 || true
     - |
       if [ "$CI_JOB_STATUS" = "success" ]; then
-        TEXT="✅ ssu-138 задеплоен — ${CI_COMMIT_SHORT_SHA} (${CI_COMMIT_TITLE})"
+        TEXT="✅ ssu-138 [$ENV] задеплоен — ${CI_COMMIT_SHORT_SHA} (${CI_COMMIT_TITLE})"
       else
-        TEXT="❌ ssu-138 деплой упал — ${CI_COMMIT_SHORT_SHA}"
+        TEXT="❌ ssu-138 [$ENV] деплой упал — ${CI_COMMIT_SHORT_SHA} | ${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}"
       fi
-      curl -sS "${TG_NOTIFY_URL}" \
-        -H "Content-Type: application/json" \
-        -d "{\"chat_id\":\"${TG_CHAT_ID}\",\"thread_id\":5,\"text\":\"${TEXT}\"}" || true
-  only:
-    - main
+      curl -sS --max-time 10 "${TG_NOTIFY_URL}" -H "Content-Type: application/json" \
+        -d "{\"chat_id\":\"${TG_CHAT_ID}\",\"thread_id\":${TG_THREAD_DEPLOYS},\"text\":\"${TEXT}\"}" || true
+
+deploy_staging:
+  extends: .deploy
+  variables: { ENV: staging }
+  environment: { name: staging }
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "test"'
+
+deploy_prod:
+  extends: .deploy
+  variables: { ENV: prod }
+  environment: { name: production }
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'   # авто-деплой в прод (гейт = сам merge в main по команде)
+
+# Секреты SECRET_KEY/DB_PASSWORD/EMAIL_HOST_PASSWORD/TELEGRAM_BOT_TOKEN — в GitLab CI/CD variables (scoped по environment).
+# TG_CHAT_ID/TG_BOT_TOKEN/TG_NOTIFY_URL — на уровне ГРУППЫ kotpilota (наследуются всеми проектами).

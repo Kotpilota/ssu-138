@@ -1,0 +1,103 @@
+# Профиль APP (Django) под стандарт MyServer — см. C:\Claude\Claude Code\server-architecture.md
+# Один файл обслуживает prod и staging: отличаются только deploy/<env>.env
+# (COMPOSE_PROJECT_NAME, DOMAIN, ROUTER_RULE, БД, ALLOWED_HOSTS...).
+# Секреты (SECRET_KEY, DB_PASSWORD, EMAIL_HOST_PASSWORD, TELEGRAM_BOT_TOKEN) — из GitLab CI/CD variables.
+name: ${COMPOSE_PROJECT_NAME}
+
+services:
+  web:
+    image: ${REGISTRY_IMAGE}:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.production
+      SECRET_KEY: ${SECRET_KEY}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: db
+      DB_PORT: "5432"
+      EMAIL_HOST: ${EMAIL_HOST}
+      EMAIL_PORT: ${EMAIL_PORT}
+      EMAIL_USE_TLS: ${EMAIL_USE_TLS}
+      EMAIL_HOST_USER: ${EMAIL_HOST_USER}
+      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
+      LEAD_RECIPIENT_EMAIL: ${LEAD_RECIPIENT_EMAIL}
+      TELEGRAM_ENABLED: ${TELEGRAM_ENABLED}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID}
+      TELEGRAM_THREAD_ID: ${TELEGRAM_THREAD_ID}
+      TELEGRAM_PROXY_URL: ${TELEGRAM_PROXY_URL}
+      SITE_PHONE: ${SITE_PHONE}
+      SITE_EMAIL: ${SITE_EMAIL}
+      SITE_ADDRESS: ${SITE_ADDRESS}
+      SITE_INN: ${SITE_INN}
+      SITE_OGRN: ${SITE_OGRN}
+      SITE_LEGAL_NAME: ${SITE_LEGAL_NAME}
+      SITE_ADDRESS_LEGAL: ${SITE_ADDRESS_LEGAL}
+      SITE_OG_IMAGE: ${SITE_OG_IMAGE}
+    volumes:
+      - /mnt/hdd/media/${COMPOSE_PROJECT_NAME}:/app/media
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      db: { condition: service_healthy }
+      memcached: { condition: service_started }
+    networks: [ web, internal ]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/healthz/').status==200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=web
+      # основной HTTPS-роутер (ROUTER_RULE задаётся в deploy/<env>.env — prod включает www)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=${ROUTER_RULE}
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=websecure
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
+      - traefik.http.services.${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=8000
+      # www → apex + security-заголовки (www-strip срабатывает только если есть www-хост)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=${COMPOSE_PROJECT_NAME}-www,${COMPOSE_PROJECT_NAME}-sec
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-www.redirectregex.regex=^https?://www\.(.+)
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-www.redirectregex.replacement=https://$${1}
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-www.redirectregex.permanent=true
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-sec.headers.stsSeconds=31536000
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-sec.headers.stsIncludeSubdomains=true
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-sec.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-sec.headers.frameDeny=true
+      # HTTP → HTTPS
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-http.rule=${ROUTER_RULE}
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-http.entrypoints=web
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}-http.middlewares=${COMPOSE_PROJECT_NAME}-https
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-https.redirectscheme.scheme=https
+      - traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-https.redirectscheme.permanent=true
+
+  memcached:
+    image: memcached:1.6-alpine
+    restart: unless-stopped
+    networks: [ internal ]
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks: [ internal ]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pg_data:
+
+networks:
+  web: { external: true }
+  internal: { driver: bridge }
