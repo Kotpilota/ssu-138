@@ -62,9 +62,6 @@ class Lead(models.Model):
     def __str__(self):
         return f"#{self.pk} {self.name} ({self.phone})"
 
-    def get_object_type_display_safe(self):
-        return dict(ObjectType.choices).get(self.object_type, self.object_type)
-
 
 class LeadNote(models.Model):
     lead = models.ForeignKey(Lead, on_delete=models.CASCADE, related_name="notes")

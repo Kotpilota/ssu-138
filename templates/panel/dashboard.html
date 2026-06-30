@@ -37,12 +37,11 @@
 <div class="charts-row">
   <div class="chart-card chart-card--wide">
     <p class="chart-title">Заявки за 30 дней</p>
-    <canvas id="chartLine" height="90"></canvas>
+    <canvas id="chart-leads" height="90" data-chart="{{ chart_json }}"></canvas>
   </div>
   <div class="chart-card">
     <p class="chart-title">По статусам</p>
-    <canvas id="chartDonut" height="180"></canvas>
-    <div class="donut-legend" id="donutLegend"></div>
+    <canvas id="chart-statuses" height="180" data-statuses="{{ status_json }}"></canvas>
   </div>
 </div>
 
@@ -85,10 +84,7 @@
 </div>
 {% endblock %}
 
-{% block extra_js %}
-<script>
-  const chartData = {{ chart_json|safe }};
-  const statusData = {{ status_json|safe }};
-  initDashboardCharts(chartData, statusData);
-</script>
-{% endblock %}
+{% comment %}
+Графики инициализирует static/js/panel.js — он читает JSON из data-атрибутов
+канвасов #chart-leads / #chart-statuses. Отдельный inline-скрипт не нужен.
+{% endcomment %}

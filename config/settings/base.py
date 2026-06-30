@@ -74,7 +74,7 @@ LOGIN_REDIRECT_URL = "/panel/"
 LOGOUT_REDIRECT_URL = "/panel/login/"
 
 # Site-wide settings (overridable via env in production)
-SITE_PHONE = "+7 (916) 922-22-24"
+SITE_PHONE = "+7 (916) 992-22-24"
 SITE_EMAIL = "info@ssu-138.ru"
 SITE_ADDRESS = "г. Москва"
 SITE_INN = "9111027572"

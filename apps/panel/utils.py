@@ -3,6 +3,24 @@ import io
 from apps.leads.models import Lead
 
 
+def apply_lead_filters(queryset, params):
+    """Фильтрация заявок по GET-параметрам. Общая для списка и экспорта CSV,
+    чтобы выгрузка всегда соответствовала тому, что отфильтровано на экране."""
+    status = params.get("status")
+    object_type = params.get("object_type")
+    date_from = params.get("date_from")
+    date_to = params.get("date_to")
+    if status:
+        queryset = queryset.filter(status=status)
+    if object_type:
+        queryset = queryset.filter(object_type=object_type)
+    if date_from:
+        queryset = queryset.filter(created_at__date__gte=date_from)
+    if date_to:
+        queryset = queryset.filter(created_at__date__lte=date_to)
+    return queryset
+
+
 def _safe_csv_value(value: str) -> str:
     """Защита от CSV Injection: префикс ' для строк начинающихся с формульных символов."""
     s = str(value) if value is not None else ""

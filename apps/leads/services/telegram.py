@@ -1,3 +1,4 @@
+import html
 import logging
 import requests
 from django.conf import settings
@@ -53,18 +54,25 @@ def format_lead_message(lead) -> str:
     contact_icon = "📧" if lead.contact_method == "email" else "📞"
     contact_label = "Написать на email" if lead.contact_method == "email" else "Позвонить"
 
+    # parse_mode=HTML: экранируем все пользовательские значения, иначе символы
+    # < > & ломают парсинг (Telegram вернёт 400) и позволяют внедрить разметку.
+    name = html.escape(lead.name)
+    phone = html.escape(lead.phone)
+    email = html.escape(lead.email)
+    message = html.escape(lead.message)
+
     lines = [
         f"🔔 <b>Новая заявка #{lead.pk}</b>",
         "",
-        f"👤 <b>Имя:</b> {lead.name}",
-        f"📞 <b>Телефон:</b> {lead.phone}",
+        f"👤 <b>Имя:</b> {name}",
+        f"📞 <b>Телефон:</b> {phone}",
     ]
     if lead.email:
-        lines.append(f"📧 <b>Email:</b> {lead.email}")
+        lines.append(f"📧 <b>Email:</b> {email}")
     lines.append(f"{contact_icon} <b>Связаться:</b> {contact_label}")
     lines.append(f"🏗 <b>Тип объекта:</b> {lead.get_object_type_display()}")
     if lead.message:
-        lines += ["", f"💬 {lead.message}"]
+        lines += ["", f"💬 {message}"]
     lines += [
         "",
         f"🕐 {lead.created_at.strftime('%d.%m.%Y %H:%M')}",

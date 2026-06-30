@@ -12,7 +12,7 @@ from apps.leads.models import Lead, LeadStatus
 from apps.leads.services.telegram import send_telegram_message, format_lead_message
 from .mixins import StaffRequiredMixin
 from .forms import LeadStatusForm, LeadNoteForm
-from .utils import leads_to_csv, dashboard_stats
+from .utils import leads_to_csv, dashboard_stats, apply_lead_filters
 
 
 class PanelLoginView(LoginView):
@@ -47,20 +47,7 @@ class LeadListView(StaffRequiredMixin, ListView):
     paginate_by = 25
 
     def get_queryset(self):
-        qs = Lead.objects.all()
-        status = self.request.GET.get("status")
-        object_type = self.request.GET.get("object_type")
-        date_from = self.request.GET.get("date_from")
-        date_to = self.request.GET.get("date_to")
-        if status:
-            qs = qs.filter(status=status)
-        if object_type:
-            qs = qs.filter(object_type=object_type)
-        if date_from:
-            qs = qs.filter(created_at__date__gte=date_from)
-        if date_to:
-            qs = qs.filter(created_at__date__lte=date_to)
-        return qs
+        return apply_lead_filters(Lead.objects.all(), self.request.GET)
 
     def get_context_data(self, **kwargs):
         from apps.leads.models import ObjectType
@@ -124,10 +111,7 @@ class LeadResendTelegramView(StaffRequiredMixin, View):
 
 class LeadExportCsvView(StaffRequiredMixin, View):
     def get(self, request):
-        qs = Lead.objects.all()
-        status = request.GET.get("status")
-        if status:
-            qs = qs.filter(status=status)
+        qs = apply_lead_filters(Lead.objects.all(), request.GET)
         csv_data = leads_to_csv(qs)
         response = HttpResponse(
             "﻿" + csv_data,  # BOM для Excel
