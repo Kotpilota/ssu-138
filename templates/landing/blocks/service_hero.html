@@ -1,0 +1,17 @@
+{% comment %}Hero страницы услуги. Поля: eyebrow (метка), title (h1), subtitle.{% endcomment %}
+<div class="svc-hero">
+  <nav class="breadcrumb" aria-label="Хлебные крошки">
+    <a href="/">ССУ-138</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>{{ section.eyebrow }}</span>
+  </nav>
+  <p class="hero-mono fade-up" style="margin-bottom:20px;">{{ section.eyebrow }} · ССУ-138 · С 2008</p>
+  <h1 class="hero-title fade-up" style="font-size:clamp(2rem,5vw,3.5rem);line-height:1.1;margin-bottom:24px;">
+    {{ section.title }}
+  </h1>
+  <p class="hero-sub fade-up" style="max-width:640px;margin-bottom:40px;">{{ section.subtitle }}</p>
+  <div class="hero-cta fade-up">
+    <a href="#contacts" class="btn-accent">Оставить заявку</a>
+    <a href="/" class="btn-outline">На главную <span class="arrow">→</span></a>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+{% extends "panel/base.html" %}
+{% block title %}Страницы{% endblock %}
+{% block nav_site_pages %}active{% endblock %}
+
+{% block content %}
+<div class="panel-page-header">
+  <div>
+    <h1 class="panel-page-title">Страницы сайта</h1>
+    <p class="panel-page-sub">Редактируйте содержимое и добавляйте секции без деплоя.</p>
+  </div>
+  <a href="{% url 'panel_site_page_add' %}" class="pform-btn">+ Страница</a>
+</div>
+
+<div class="detail-card">
+  <div class="site-page-rows">
+    {% for p in pages %}
+    <div class="site-page-row">
+      <div>
+        <a href="{% url 'panel_site_page_edit' p.pk %}" class="site-page-title">{{ p.title }}</a>
+        <span class="site-page-slug">/{{ p.slug }}</span>
+      </div>
+      <div class="site-page-meta">
+        <span>{{ p.sections.count }} секц.</span>
+        {% if p.is_published %}
+          <span class="badge badge--closed">опубл.</span>
+        {% else %}
+          <span class="badge badge--spam">черновик</span>
+        {% endif %}
+        <a href="{% url 'panel_site_page_edit' p.pk %}" class="btn-xs">Редактировать</a>
+      </div>
+    </div>
+    {% empty %}
+    <p class="td-empty" style="padding:16px 0;">Страниц пока нет.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

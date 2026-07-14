@@ -1,0 +1,6 @@
+{% comment %}Произвольный блок. section.title (опц.) + section.body (сырой HTML, вводит только staff).{% endcomment %}
+<section class="custom-block section-wrap"{% if section.anchor %} id="{{ section.anchor }}"{% endif %}>
+  {% if section.eyebrow %}<p class="section-mono fade-up">{{ section.eyebrow }}</p>{% endif %}
+  {% if section.title %}<h2 class="section-title fade-up">{{ section.title }}</h2>{% endif %}
+  {% if section.body %}<div class="custom-block-body fade-up">{{ section.body|safe }}</div>{% endif %}
+</section>

@@ -1,0 +1,68 @@
+{% extends "panel/base.html" %}
+{% block title %}{{ object.title|default:"Новая страница" }}{% endblock %}
+{% block nav_site_pages %}active{% endblock %}
+
+{% block content %}
+<div class="panel-page-header">
+  <div>
+    <a href="{% url 'panel_site_pages' %}" class="back-link">← Страницы</a>
+    <h1 class="panel-page-title">{{ object.title|default:"Новая страница" }}</h1>
+    {% if object.pk %}<p class="panel-page-sub">/{{ object.slug }} · <a href="/{{ object.slug }}/" target="_blank" style="color:var(--accent)">открыть на сайте →</a></p>{% endif %}
+  </div>
+</div>
+
+<div class="detail-main" style="max-width:900px;">
+    <!-- Секции -->
+    {% if object.pk %}
+    <div class="detail-card">
+      <h2 class="detail-card-title">Секции страницы</h2>
+      <div class="site-section-rows">
+        {% for s in sections %}
+        <div class="site-section-row {% if not s.is_visible %}is-hidden{% endif %}">
+          <div class="ssr-move">
+            <form method="post" action="{% url 'panel_site_section_move' s.pk 'up' %}">{% csrf_token %}<button class="btn-move" title="Вверх">▲</button></form>
+            <form method="post" action="{% url 'panel_site_section_move' s.pk 'down' %}">{% csrf_token %}<button class="btn-move" title="Вниз">▼</button></form>
+          </div>
+          <div class="ssr-info">
+            <a href="{% url 'panel_site_section_edit' s.pk %}" class="ssr-title">{{ s.get_block_type_display }}</a>
+            <span class="ssr-sub">{{ s.title|default:s.eyebrow|default:"—" }}</span>
+          </div>
+          <div class="ssr-actions">
+            <form method="post" action="{% url 'panel_site_section_toggle' s.pk %}">{% csrf_token %}
+              <button class="btn-xs" title="Показать/скрыть">{% if s.is_visible %}👁 виден{% else %}🚫 скрыт{% endif %}</button>
+            </form>
+            <a href="{% url 'panel_site_section_edit' s.pk %}" class="btn-xs">Изменить</a>
+            <form method="post" action="{% url 'panel_site_section_delete' s.pk %}" onsubmit="return confirm('Удалить секцию?')">{% csrf_token %}
+              <button class="btn-xs btn-xs--danger">Удалить</button>
+            </form>
+          </div>
+        </div>
+        {% empty %}
+        <p class="td-empty" style="padding:12px 0;">Секций нет — добавьте первую.</p>
+        {% endfor %}
+      </div>
+
+      <form method="post" action="{% url 'panel_site_section_add' object.pk %}" class="ssr-add">
+        {% csrf_token %}
+        <select name="block_type" class="filter-select" required>
+          <option value="">Тип новой секции…</option>
+          {% for value, label in block_types %}<option value="{{ value }}">{{ label }}</option>{% endfor %}
+        </select>
+        <button type="submit" class="pform-btn">+ Добавить секцию</button>
+      </form>
+    </div>
+    {% endif %}
+
+    <!-- SEO / параметры страницы -->
+    <div class="detail-card">
+      <h2 class="detail-card-title">Параметры и SEO</h2>
+      <form method="post" enctype="multipart/form-data" class="pform">
+        {% csrf_token %}
+        {% for field in form %}{% include "panel/site/_field.html" with field=field %}{% endfor %}
+        <div class="pform-actions">
+          <button type="submit" class="pform-btn">Сохранить</button>
+        </div>
+      </form>
+    </div>
+</div>
+{% endblock %}

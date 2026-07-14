@@ -1,0 +1,45 @@
+{% extends "panel/base.html" %}
+{% block title %}Секция{% endblock %}
+{% block nav_site_pages %}active{% endblock %}
+
+{% block content %}
+<div class="panel-page-header">
+  <div>
+    <a href="{% url 'panel_site_page_edit' object.page_id %}" class="back-link">← {{ object.page.title }}</a>
+    <h1 class="panel-page-title">{{ object.get_block_type_display }}</h1>
+  </div>
+</div>
+
+<form method="post" enctype="multipart/form-data" class="pform" style="max-width:900px;">
+  {% csrf_token %}
+
+  <div class="detail-card">
+    <h2 class="detail-card-title">Содержимое секции</h2>
+    {% for field in form %}{% include "panel/site/_field.html" with field=field %}{% endfor %}
+  </div>
+
+  <div class="detail-card">
+    <h2 class="detail-card-title">Элементы (карточки, пункты, счётчики)</h2>
+    {{ formset.management_form }}
+    <div class="formset-rows">
+      {% for f in formset %}
+      <div class="formset-row">
+        {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+        {% for field in f.visible_fields %}
+          {% if field.name != "DELETE" %}{% include "panel/site/_field.html" with field=field %}{% endif %}
+        {% endfor %}
+        {% if f.instance.pk %}
+        <label class="formset-del">{{ f.DELETE }} <span>Удалить этот элемент</span></label>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    <p class="pform-help">Пустой блок внизу — добавляет новый элемент при сохранении.</p>
+  </div>
+
+  <div class="pform-actions">
+    <button type="submit" class="pform-btn">Сохранить</button>
+    <a href="{% url 'panel_site_page_edit' object.page_id %}" class="pform-btn pform-btn--ghost">Назад</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% comment %}Сетка фич услуги. section.eyebrow/title + items (number, title, description).{% endcomment %}
+<section class="svc-features services" aria-labelledby="features-title">
+  <div class="section-wrap">
+    <p class="section-mono fade-up">{{ section.eyebrow|default:"ВКЛЮЧАЕТ" }}</p>
+    <h2 class="section-title fade-up" id="features-title">{{ section.title|default:"Что входит в услугу" }}</h2>
+    <div class="services-grid">
+      {% for f in items %}
+      <article class="service-card fade-up">
+        <p class="card-num">{{ f.number }}</p>
+        <div class="card-rule"></div>
+        <h3 class="card-title">{{ f.title }}</h3>
+        <p class="card-desc">{{ f.description }}</p>
+        <a href="#contacts" class="card-link">Оставить заявку →</a>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
