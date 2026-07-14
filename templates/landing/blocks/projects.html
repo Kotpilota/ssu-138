@@ -1,0 +1,29 @@
+{% load static %}
+{% comment %}Ключевые проекты. items: image, tag, description (оверлей), title (название),
+extra.meta = [{label, value}, ...] (строки характеристик).{% endcomment %}
+<section class="objects"{% if section.anchor %} id="{{ section.anchor }}"{% endif %} aria-labelledby="objects-title">
+  <div class="section-wrap">
+    <p class="section-mono fade-up" style="color:var(--accent)">{{ section.eyebrow }}</p>
+    <h2 class="section-title fade-up" id="objects-title" style="color:#0F1419">{{ section.title }}</h2>
+    <div class="objects-grid">
+      {% for i in items %}
+      <article class="object-card fade-up">
+        <div class="object-photo">
+          {% if i.image %}<img src="{{ i.image.url }}" alt="{{ i.title }}" loading="lazy">
+          {% elif i.extra.static_image %}<img src="{% static i.extra.static_image %}" alt="{{ i.title }}" loading="lazy">{% endif %}
+          {% if i.tag %}<span class="object-tag">{{ i.tag }}</span>{% endif %}
+          {% if i.description %}<div class="object-overlay">{{ i.description }}</div>{% endif %}
+        </div>
+        <div class="object-body">
+          <h3 class="object-name">{{ i.title }}</h3>
+          <div class="object-meta">
+            {% for row in i.extra.meta %}
+            <div class="object-meta-row">{{ row.label }}<br><span>{{ row.value }}</span></div>
+            {% endfor %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

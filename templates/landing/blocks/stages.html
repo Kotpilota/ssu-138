@@ -1,0 +1,16 @@
+{% comment %}Этапы. eyebrow, title + items (number, title, description).{% endcomment %}
+<section class="stages"{% if section.anchor %} id="{{ section.anchor }}"{% endif %} aria-labelledby="stages-title">
+  <div class="section-wrap">
+    <p class="section-mono fade-up">{{ section.eyebrow }}</p>
+    <h2 class="section-title fade-up" id="stages-title">{{ section.title }}</h2>
+    <div class="stages-timeline">
+      {% for i in items %}
+      <div class="stage-item fade-up">
+        <div class="stage-dot"><span class="stage-dot-num">{{ i.number }}</span></div>
+        <h3 class="stage-title">{{ i.title }}</h3>
+        <p class="stage-desc">{{ i.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

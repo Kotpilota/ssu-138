@@ -1,0 +1,19 @@
+{% comment %}Контактный блок (реквизиты + карта). Значения берутся из «Реквизитов».
+Форма заявки живёт в самом шаблоне страницы, здесь только контакты.{% endcomment %}
+<section class="contacts"{% if section.anchor %} id="{{ section.anchor }}"{% endif %}>
+  <div class="section-wrap">
+    <p class="section-mono">{{ section.eyebrow|default:"КОНТАКТЫ" }}</p>
+    <h2 class="section-title" style="margin-bottom:32px;">{{ section.title|default:"Свяжитесь с нами" }}</h2>
+    <p class="contact-label">Телефон</p>
+    <p class="contact-value"><a href="tel:{{ SITE_PHONE }}">{{ SITE_PHONE }}</a></p>
+    <p class="contact-label">Email</p>
+    <p class="contact-value"><a href="mailto:{{ SITE_EMAIL }}">{{ SITE_EMAIL }}</a></p>
+    <p class="contact-label">Адрес</p>
+    <p class="contact-value">{{ SITE_ADDRESS }}</p>
+    {% if SITE_MAP_EMBED %}
+    <iframe class="ymap-frame" src="{{ SITE_MAP_EMBED }}" width="100%" height="280"
+      frameborder="0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      title="Офис ССУ-138 на карте" allowfullscreen></iframe>
+    {% endif %}
+  </div>
+</section>

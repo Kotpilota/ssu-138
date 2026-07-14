@@ -504,3 +504,10 @@ ul { list-style: none; }
   .footer-grid { grid-template-columns: 1fr; }
   .hero-cta { flex-direction: column; }
 }
+
+/* CTA-полоса (добавляемый блок) */
+.cta-band {
+  padding: 80px 24px;
+  border-top: 1px solid var(--steel, #2A2F36);
+  border-bottom: 1px solid var(--steel, #2A2F36);
+}

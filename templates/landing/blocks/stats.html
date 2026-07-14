@@ -1,0 +1,11 @@
+{% comment %}Счётчики. items: number (data-count), extra.suffix, subtitle (видимый текст), title (подпись).{% endcomment %}
+<section class="stats"{% if section.anchor %} id="{{ section.anchor }}"{% endif %} aria-labelledby="stats-title">
+  <div class="stats-grid">
+    {% for i in items %}
+    <div class="stat-item fade-up">
+      <div class="stat-num" data-count="{{ i.number }}" data-suffix="{{ i.extra.suffix }}">{{ i.subtitle|default:i.number }}</div>
+      <div class="stat-label">{{ i.title }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>

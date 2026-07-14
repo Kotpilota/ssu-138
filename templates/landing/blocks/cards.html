@@ -1,0 +1,18 @@
+{% comment %}Карточки услуг. eyebrow, title, anchor + items (number, title, description).{% endcomment %}
+<section class="services"{% if section.anchor %} id="{{ section.anchor }}"{% endif %} aria-labelledby="services-title">
+  <div class="section-wrap">
+    <p class="section-mono fade-up">{{ section.eyebrow }}</p>
+    <h2 class="section-title fade-up" id="services-title">{{ section.title }}</h2>
+    <div class="services-grid">
+      {% for i in items %}
+      <article class="service-card fade-up">
+        <p class="card-num">{{ i.number }}</p>
+        <div class="card-rule"></div>
+        <h3 class="card-title">{{ i.title }}</h3>
+        <p class="card-desc">{{ i.description }}</p>
+        <a href="{{ i.link_url|default:'#contacts' }}" class="card-link">{{ i.link_text|default:'Оставить заявку' }} →</a>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

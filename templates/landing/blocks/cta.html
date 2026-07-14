@@ -1,0 +1,9 @@
+{% comment %}Призыв к действию. eyebrow, title, subtitle + кнопка (extra.button_text / extra.button_url).{% endcomment %}
+<section class="cta-band"{% if section.anchor %} id="{{ section.anchor }}"{% endif %}>
+  <div class="section-wrap" style="text-align:center;">
+    {% if section.eyebrow %}<p class="section-mono fade-up" style="color:var(--accent)">{{ section.eyebrow }}</p>{% endif %}
+    {% if section.title %}<h2 class="section-title fade-up">{{ section.title }}</h2>{% endif %}
+    {% if section.subtitle %}<p class="hero-sub fade-up" style="margin:16px auto 32px;max-width:640px;">{{ section.subtitle }}</p>{% endif %}
+    <a href="{{ section.extra.button_url|default:'#contacts' }}" class="btn-accent">{{ section.extra.button_text|default:'Оставить заявку' }}</a>
+  </div>
+</section>

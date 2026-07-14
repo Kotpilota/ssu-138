@@ -1,0 +1,24 @@
+{% load static %}
+{% comment %}Главный баннер. eyebrow, title (можно с <br>), subtitle, image.{% endcomment %}
+<section class="hero" aria-label="Главный баннер">
+  <div class="hero-content">
+    <p class="hero-mono fade-up">{{ section.eyebrow }}</p>
+    <h1 class="hero-title fade-up">{{ section.title|safe }}</h1>
+    <p class="hero-sub fade-up">{{ section.subtitle }}</p>
+    <div class="hero-cta fade-up">
+      <button class="btn-accent" onclick="document.getElementById('contacts').scrollIntoView({behavior:'smooth'})">
+        Оставить заявку
+      </button>
+      <a href="#objects" class="btn-outline">
+        Объекты <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+  <div class="hero-media fade-up">
+    <img
+      src="{% if section.image %}{{ section.image.url }}{% else %}{% static 'img/hero/main.jpg' %}{% endif %}"
+      alt="Строительный объект ССУ-138"
+      width="900" height="1125"
+    >
+  </div>
+</section>

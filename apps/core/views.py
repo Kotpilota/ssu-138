@@ -7,7 +7,14 @@ from django.utils import timezone
 
 
 def index(request):
-    return render(request, "landing/index.html")
+    from apps.content.models import Page
+
+    page = get_object_or_404(
+        Page.objects.prefetch_related("sections__items"),
+        slug="home", is_published=True,
+    )
+    sections = [s for s in page.sections.all() if s.is_visible]
+    return render(request, "landing/index.html", {"page": page, "sections": sections})
 
 
 def service_page(request, slug):

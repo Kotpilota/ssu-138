@@ -1,0 +1,16 @@
+{% load static %}
+{% comment %}Блок доверия. image (письмо), eyebrow, title, subtitle (цитата), body (подпись/атрибуция).{% endcomment %}
+<section class="gratitude" aria-labelledby="gratitude-title">
+  <div class="gratitude-inner">
+    <div class="gratitude-img fade-up">
+      {% if section.image %}<img src="{{ section.image.url }}" alt="{{ section.title }}" loading="lazy">
+      {% elif section.extra.static_image %}<img src="{% static section.extra.static_image %}" alt="{{ section.title }}" loading="lazy">{% endif %}
+    </div>
+    <div class="gratitude-content fade-up">
+      <p class="section-mono" style="color:var(--accent)">{{ section.eyebrow }}</p>
+      <h2 class="section-title" id="gratitude-title" style="margin-bottom:32px;">{{ section.title }}</h2>
+      <p class="gratitude-quote">{{ section.subtitle }}</p>
+      <p class="gratitude-attr">{{ section.body }}</p>
+    </div>
+  </div>
+</section>
