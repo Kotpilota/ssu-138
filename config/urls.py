@@ -1,7 +1,8 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, re_path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve as media_serve
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -12,6 +13,17 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    # В проде статика отдаётся whitenoise, но пользовательская media (загрузки из
+    # панели) лежит на томе и whitenoise её не индексирует. Отдаём через Django —
+    # для низконагруженного лендинга это приемлемо.
+    urlpatterns += [
+        re_path(
+            r"^media/(?P<path>.*)$",
+            media_serve,
+            {"document_root": settings.MEDIA_ROOT},
+        ),
+    ]
     try:
         import debug_toolbar
         urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns

@@ -1,17 +1,19 @@
 import json
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView, ListView, DetailView, View
+from django.views.generic import TemplateView, ListView, DetailView, View, UpdateView
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
+from django.urls import reverse_lazy
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_POST
 
 from apps.leads.models import Lead, LeadStatus
 from apps.leads.services.telegram import send_telegram_message, format_lead_message
+from apps.content.models import SiteSettings
 from .mixins import StaffRequiredMixin
-from .forms import LeadStatusForm, LeadNoteForm
+from .forms import LeadStatusForm, LeadNoteForm, SiteSettingsForm
 from .utils import leads_to_csv, dashboard_stats, apply_lead_filters
 
 
@@ -107,6 +109,20 @@ class LeadResendTelegramView(StaffRequiredMixin, View):
         else:
             messages.error(request, "Ошибка отправки в Telegram.")
         return redirect("panel_lead_detail", pk=pk)
+
+
+class SiteSettingsView(StaffRequiredMixin, UpdateView):
+    """Редактирование реквизитов сайта (синглтон)."""
+    template_name = "panel/site/settings.html"
+    form_class = SiteSettingsForm
+    success_url = reverse_lazy("panel_site_settings")
+
+    def get_object(self, queryset=None):
+        return SiteSettings.load()
+
+    def form_valid(self, form):
+        messages.success(self.request, "Реквизиты сохранены.")
+        return super().form_valid(form)
 
 
 class LeadExportCsvView(StaffRequiredMixin, View):

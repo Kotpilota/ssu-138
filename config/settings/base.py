@@ -11,6 +11,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # local
     "apps.core",
+    "apps.content",
     "apps.leads",
     "apps.panel",
     # third-party

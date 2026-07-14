@@ -1,0 +1,24 @@
+{% extends "panel/base.html" %}
+{% block title %}Реквизиты{% endblock %}
+{% block nav_site_settings %}active{% endblock %}
+
+{% block content %}
+<div class="panel-page-header">
+  <div>
+    <h1 class="panel-page-title">Реквизиты сайта</h1>
+    <p class="panel-page-sub">Телефон, email, адреса и карта — меняются на сайте сразу после сохранения.</p>
+  </div>
+</div>
+
+<form method="post" enctype="multipart/form-data" class="pform">
+  {% csrf_token %}
+  {% if form.non_field_errors %}<div class="pform-errors">{{ form.non_field_errors }}</div>{% endif %}
+  {% for field in form %}
+    {% include "panel/site/_field.html" with field=field %}
+  {% endfor %}
+  <div class="pform-actions">
+    <button type="submit" class="pform-btn">Сохранить</button>
+    <a href="{% url 'index' %}" target="_blank" class="pform-btn pform-btn--ghost">Открыть сайт →</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% comment %}Рендер одного поля формы в стиле панели (.pform){% endcomment %}
+<div class="pform-field">
+  {% if field.field.widget.input_type == "checkbox" %}
+    <label style="display:flex;align-items:center;gap:8px;text-transform:none;">
+      {{ field }} <span>{{ field.label }}</span>
+    </label>
+  {% else %}
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field }}
+  {% endif %}
+  {% if field.help_text %}<p class="pform-help">{{ field.help_text }}</p>{% endif %}
+  {% for error in field.errors %}<p class="pform-errors">{{ error }}</p>{% endfor %}
+</div>
