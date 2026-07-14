@@ -1,11 +1,24 @@
+from django.conf import settings
 from django.db import migrations
 
 
 def create_singleton(apps, schema_editor):
     SiteSettings = apps.get_model("content", "SiteSettings")
-    # Дефолты полей уже совпадают с текущими прод-значениями — просто гарантируем
-    # наличие записи pk=1, чтобы форма в панели работала сразу после деплоя.
-    SiteSettings.objects.get_or_create(pk=1)
+    # Заполняем реквизиты из settings (в проде читаются из env), чтобы первый
+    # деплой перенёс актуальные значения, а не дефолты модели.
+    if SiteSettings.objects.filter(pk=1).exists():
+        return
+    SiteSettings.objects.create(
+        pk=1,
+        phone=getattr(settings, "SITE_PHONE", ""),
+        email=getattr(settings, "SITE_EMAIL", ""),
+        address=getattr(settings, "SITE_ADDRESS", ""),
+        inn=getattr(settings, "SITE_INN", ""),
+        ogrn=getattr(settings, "SITE_OGRN", ""),
+        legal_name=getattr(settings, "SITE_LEGAL_NAME", ""),
+        address_legal=getattr(settings, "SITE_ADDRESS_LEGAL", ""),
+        site_url=getattr(settings, "SITE_URL", "https://ssu-138.ru"),
+    )
 
 
 def noop(apps, schema_editor):
