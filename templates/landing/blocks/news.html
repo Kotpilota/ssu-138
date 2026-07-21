@@ -1,0 +1,30 @@
+{% load static %}
+{% comment %}Новость: статья + галерея.
+  section: eyebrow (метка), title (заголовок), subtitle (лид), body (HTML-текст статьи),
+           extra.date (дата), extra.tag (метка объекта).
+  items: галерея фото — image ИЛИ extra.static_image, title = подпись/alt.
+{% endcomment %}
+<section class="news"{% if section.anchor %} id="{{ section.anchor }}"{% endif %} aria-labelledby="news-title">
+  <div class="section-wrap news-wrap">
+    <header class="news-head">
+      {% if section.eyebrow %}<p class="section-mono" style="color:var(--accent)">{{ section.eyebrow }}</p>{% endif %}
+      <h2 class="section-title news-title" id="news-title">{{ section.title }}</h2>
+      {% if section.extra.date %}<p class="news-date">{{ section.extra.date }}</p>{% endif %}
+      {% if section.subtitle %}<p class="news-lead">{{ section.subtitle }}</p>{% endif %}
+    </header>
+
+    {% if items %}
+    <div class="news-gallery">
+      {% for i in items %}
+      <figure class="news-shot">
+        {% if i.image %}<img src="{{ i.image.url }}" alt="{{ i.title }}" loading="lazy">
+        {% elif i.extra.static_image %}<img src="{% static i.extra.static_image %}" alt="{{ i.title }}" loading="lazy">{% endif %}
+        {% if i.title %}<figcaption>{{ i.title }}</figcaption>{% endif %}
+      </figure>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if section.body %}<div class="news-body">{{ section.body|safe }}</div>{% endif %}
+  </div>
+</section>

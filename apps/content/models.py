@@ -74,6 +74,7 @@ class BlockType(models.TextChoices):
     STAGES = "stages", "Этапы"
     CONTACTS = "contacts", "Контакты + форма"
     CTA = "cta", "Призыв к действию"
+    NEWS = "news", "Новость (статья + галерея)"
     CUSTOM_HTML = "custom_html", "Произвольный HTML"
 
 
